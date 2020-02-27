@@ -13,10 +13,11 @@
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 
-#include "libft.h"
+#include <../libft/includes/libft.h>
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 typedef enum
 {
@@ -26,22 +27,27 @@ typedef enum
 
 typedef	struct	s_comand
 {
-	char		*name;
-	s_comand	*next;
+	char			*name;
+	struct s_comand	*next;
 }				t_comand;
 
 typedef	struct	s_list_comand
 {
-	int			size;
-	s_comand	*head;
+	int				size;
+	struct s_comand	*head;
 }				t_list_comand;
 
-typedef	struct s_stack
+typedef	struct	s_stack
 {
-	int			num;
-	int			index;
-	t_bool		keep_in;
-	s_stack		*next;
+	int				num;
+	int				index;
+	t_bool			keep_in;
+	struct s_stack	*next;
 }				t_stack;
 
+typedef struct	s_list_stack
+{
+	int				size;
+	struct s_stack	*head;
+}				t_list_stack;
 #endif // !PUSH_SWAP_H

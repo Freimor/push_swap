@@ -105,7 +105,7 @@ OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 #compiler
 CC = gcc
-CFLAGS = -Wextra -Wall -Werror -g
+#CFLAGS = -Wextra -Wall -Werror -g
 
 #directories
 INCDIR = ./includes/
