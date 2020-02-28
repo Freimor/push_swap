@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/02/28 17:31:42 by freimor          ###   ########.fr       */
+/*   Updated: 2020/02/28 20:46:06 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,26 @@ typedef struct	s_list_stack
 	struct s_stack	*head;
 }				t_list_stack;
 
-void			list_add2head(t_list_stack *list, t_stack *new_node, t_bool copy);
+//list_actions
+void			list_add2head(t_list_stack *l, t_stack *node, t_bool cpy, t_bool nohead);
 void			list_add2tail(t_list_stack *list, t_stack *new_node);
 void			list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete);
 t_list_stack	*list_copylist(t_list_stack *old);
 void			list_deleteall(t_list_stack *list);
 t_stack			*stack_copystack(t_stack *stack, t_bool save_next);
+
+//solve_actions
+void			markup_index(t_list_stack *list);
+
+//command actions
+void	add_comand(t_list_comand *list_comands, char *comand);
+t_bool	sa_needed(t_list_stack *list);
+
+
+//commands
+void	sa(t_list_stack *list_stack, t_list_comand *list_command, t_bool markup);
+void	ra(t_list_stack *a, t_list_comand *list_command);
+
 
 
 #endif // !PUSH_SWAP_H

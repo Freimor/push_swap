@@ -6,19 +6,36 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/02/28 14:17:51 by freimor          ###   ########.fr       */
+/*   Updated: 2020/02/28 20:54:17 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	list_add2head(t_list_stack *list, t_stack *new_node)
+void	list_add2head(t_list_stack *l, t_stack *node, t_bool cpy, t_bool nohead)
 {
 	t_stack	*stack;
+	t_stack *temp;
 
-	stack = list->head;
-	list->head = new_node;
-	new_node->next = stack;
+	if (cpy == false)
+	{
+		if (nohead == false)
+			stack = l->head;
+		else
+			l = (t_list_stack *)malloc(sizeof(t_list_stack));
+		l->head = node;
+		node->next = stack;
+	}
+	else
+	{
+		temp = stack_copystack(node, false);
+		if (nohead == false)
+			stack = l->head;
+		else
+			l = (t_list_stack *)malloc(sizeof(t_list_stack));
+		l->head = temp;
+		temp->next = stack;
+	}
 }
 
 void	list_add2tail(t_list_stack *list, t_stack *new_node)
