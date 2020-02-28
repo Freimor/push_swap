@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/02/25 17:01:23 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:43:41 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_bool		check_index_is_set(t_list_stack *list);
+t_bool		check_index_is_set(t_list_stack *list)
 {
 	t_stack *stack;
 
@@ -29,6 +29,7 @@ int			find_min_stack(t_list_stack *list, int min, t_bool is_first)
 {
 	t_stack *stack;
 	t_bool	index_full;
+	int		new_min;
 
 	index_full = false;
 	stack = list->head;
@@ -37,13 +38,21 @@ int			find_min_stack(t_list_stack *list, int min, t_bool is_first)
 		min = stack->num;
 		stack = stack->next;
 	}
-	while (stack->next != NULL)
+	else
 	{
-		if (stack->num < min)
-			min = stack->num;
+		if (stack->num == min)
+			stack = stack->next;
+		new_min = stack->num;
 		stack = stack->next;
+		while (stack->next != NULL)
+		{
+			if (stack->num == min)
+				stack = stack->next;
+			if (stack->num < new_min)
+				new_min = stack->num;
+		}
 	}
-	return (min);
+	return (is_first == true ? min : new_min);
 }
 
 int				set_index(t_list_stack *list)
@@ -76,7 +85,7 @@ int				print_stack(t_list_stack *list)
 	t_stack	*new;
 
 	new = list->head;
-	while (new->next != NULL)
+	while (new != NULL)
 	{
 		printf("%d\n", new->num);
 		new = new->next;
@@ -91,7 +100,7 @@ t_list_stack*	add(t_stack *a, t_list_stack *list, char *str)
 	a = (t_stack *)malloc(sizeof(t_stack));
 	a->num = ft_atoi(str);
 	a->index = -1;
-	a->next == NULL;
+	a->next = NULL;
 	if (list->head == NULL)
 	{
 		list->head = a;
