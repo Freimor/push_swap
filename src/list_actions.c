@@ -6,46 +6,52 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/02/28 20:54:17 by freimor          ###   ########.fr       */
+/*   Updated: 2020/02/29 13:21:56 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	list_add2head(t_list_stack *l, t_stack *node, t_bool cpy, t_bool nohead)
+void	list_add2head(t_list_stack *list, t_stack *node, t_bool copy)
 {
 	t_stack	*stack;
 	t_stack *temp;
 
-	if (cpy == false)
+	if (copy == false)
 	{
-		if (nohead == false)
-			stack = l->head;
-		else
-			l = (t_list_stack *)malloc(sizeof(t_list_stack));
-		l->head = node;
+		stack = list->head;
+		list->head = node;
 		node->next = stack;
 	}
 	else
 	{
 		temp = stack_copystack(node, false);
-		if (nohead == false)
-			stack = l->head;
-		else
-			l = (t_list_stack *)malloc(sizeof(t_list_stack));
-		l->head = temp;
+		stack = list->head;
+		list->head = temp;
 		temp->next = stack;
 	}
 }
 
-void	list_add2tail(t_list_stack *list, t_stack *new_node)
+void	list_add2tail(t_list_stack *list, t_stack *node, t_bool copy)
 {
 	t_stack	*stack;
+	t_stack *temp;
 
-	stack = list->head;
-	while(stack->next != NULL)
-		stack = stack->next;
-	stack->next = new_node;
+	if (copy == false)
+	{
+		stack = list->head;
+		while(stack->next != NULL)
+			stack = stack->next;
+		stack->next = node;
+	}
+	else
+	{
+		temp = stack_copystack(node, false);
+		stack = list->head;
+		while(stack->next != NULL)
+			stack = stack->next;
+		stack->next = temp;
+	}
 }
 
 void	list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete)
@@ -54,8 +60,13 @@ void	list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete)
 	t_stack	*temp;
 
 	stack = list->head;
-	if (stack == cut_node)
-		list->head = stack->next;
+	if (list->head == cut_node)
+	{
+		if(list->head->next == NULL)
+			list->head = NULL;
+		else
+			list->head = stack->next;
+	}
 	else
 	{
 		while (stack->next != cut_node)

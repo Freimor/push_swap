@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:50:38 by freimor           #+#    #+#             */
-/*   Updated: 2020/02/28 20:51:12 by freimor          ###   ########.fr       */
+/*   Updated: 2020/02/29 13:03:56 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_list_stack	*list_sort_ascending(t_list_stack *list)
 			{
 				temp = stack_copystack(new_stack->next, false);
 				list_cut(new_list, new_stack->next, true);
-				list_add2head(new_list, temp, true, false);
+				list_add2head(new_list, temp, true);
 				free(temp);
 				flag_sort = false;
 				new_stack = new_list->head;

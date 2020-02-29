@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:17:02 by freimor           #+#    #+#             */
-/*   Updated: 2020/02/28 20:36:42 by freimor          ###   ########.fr       */
+/*   Updated: 2020/02/29 14:11:48 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,41 @@ t_bool	check_keepin(t_list_stack *list)
 	return (true);
 }
 
+void	solve_first(t_list_stack *a, t_list_stack *b, t_list_comand *command)
+{
+	/*WHILE stack A has elements with "false" value in "Keep in Stack A" field
+      IF sa (swap a) is needed
+            perform sa (swap a) command
+            update markup
+      ELSE IF head element of stack A has "false" value in "Keep in Stack A" field
+            perform pb (push b) command
+      ELSE
+            perform ra (rotate a) command*/
+	t_stack	*stack_a;
+
+	stack_a = a->head;
+	while (check_keepin(a) == false)
+	{
+		if (sa_needed == true)
+			sa(a, command, true);
+		else if (a->head->keep_in == false)
+			pb(a, b, command);
+		else
+			ra(a, command);
+	}
+}
+
+void	solve_second(t_list_stack *a, t_list_stack *b, t_list_comand *command)
+{
+	/*WHILE stack B is not empty
+      choose element in stack B for moving to stack A
+      move stack A and stack B to prepare them for pa (push a) with chosen element
+      perform pa (push a) command*/
+	  while (b->head != NULL)
+	  {
+		  
+	  }
+}
 int	main(void)
 {
 	t_list_stack	*list;
@@ -74,15 +109,15 @@ int	main(void)
 	list = (t_list_stack *)malloc(sizeof(t_list_stack));
 	list->head = one;
 
-	list_add2tail(list, new);
+	list_add2tail(list, new, false);
 	markup_index(list);
-	printf("\n");
-	print_stack(list->head);
-	printf("\n");
-	if (sa_needed(list) == true)
-		printf("true\n");
-	else
-		printf("false\n");
+	//printf("\n");
+	//print_stack(list->head);
+	//printf("\n");
+	//if (sa_needed(list) == true)
+	//	printf("true\n");
+	//else
+	//	printf("false\n");
 	print_stack(list->head);
 	ra(list, NULL);
 	printf("\n");
