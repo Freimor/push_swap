@@ -6,154 +6,144 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/02/28 12:43:41 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/01 19:51:27 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 
-t_bool		check_index_is_set(t_list_stack *list)
+int		print_stack(t_stack *stack)
 {
-	t_stack *stack;
-
-	while (stack->next != NULL)
+	int	keepin;
+	while (stack != NULL)
 	{
-		if (stack->index == -1)
-			return (false);
+		if (stack->keep_in == true)
+			keepin = 1;
+		else
+			keepin = 0;
+		printf("%d  %d  %d\n", stack->num, stack->index, keepin);
 		stack = stack->next;
-	}
-	return (true);
-}
-
-int			find_min_stack(t_list_stack *list, int min, t_bool is_first)
-{
-	t_stack *stack;
-	t_bool	index_full;
-	int		new_min;
-
-	index_full = false;
-	stack = list->head;
-	if (is_first == true)
-	{
-		min = stack->num;
-		stack = stack->next;
-	}
-	else
-	{
-		if (stack->num == min)
-			stack = stack->next;
-		new_min = stack->num;
-		stack = stack->next;
-		while (stack->next != NULL)
-		{
-			if (stack->num == min)
-				stack = stack->next;
-			if (stack->num < new_min)
-				new_min = stack->num;
-		}
-	}
-	return (is_first == true ? min : new_min);
-}
-
-int				set_index(t_list_stack *list)
-{
-	t_stack *stack;
-	int		min;
-	t_bool	index_full;
-
-	index_full = false;
-	stack = list->head;
-	min = find_min_stack(list, 0, true);
-	while (stack->next != NULL)
-	{
-		if (stack->num == min)
-		{
-			stack->index = 0;
-			break ;
-		}
-		stack = stack->next;
-	}
-	stack = list->head;
-	while (check_index_is_set(list) != true)
-	{
-		
-	}
-}
-
-int				print_stack(t_list_stack *list)
-{
-	t_stack	*new;
-
-	new = list->head;
-	while (new != NULL)
-	{
-		printf("%d\n", new->num);
-		new = new->next;
 	}
 	return(0);
 }
 
-t_list_stack*	add(t_stack *a, t_list_stack *list, char *str)
+t_list_stack	*form_first_list(t_list_stack *list, int num)
 {
-	t_stack *new;
+	t_stack *stack;
 
-	a = (t_stack *)malloc(sizeof(t_stack));
-	a->num = ft_atoi(str);
-	a->index = -1;
-	a->next = NULL;
+	if (list == NULL)
+	{
+		list = (t_list_stack *)malloc(sizeof(t_list_stack));
+		list->head = NULL;
+	}
 	if (list->head == NULL)
 	{
-		list->head = a;
-		list->size = 1;
+		stack = (t_stack *)malloc(sizeof(t_stack));
+		stack->num = num;
+		stack->next = NULL;
+		stack->index = -1;
+		list->head = stack;
 	}
 	else
 	{
-		new = list->head;
-		while (new->next != NULL)
-			new = new->next;
-		new->next = a;
-		list->size++;
+		stack = list->head;
+		while (stack->next != NULL)
+			stack = stack->next;
+		stack->next = (t_stack *)malloc(sizeof(t_stack));
+		stack->next->num = num;
+		stack->next->next = NULL;
+		stack->next->index = -1;
 	}
 	return(list);
 }
 
-int		checker(char *str)
+int		input_check_number(char *array)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (array[i] != '\0')
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			i++;
-		else
-			return (-1);
+		if (array[i] == '+' || array[i] == '-')
+		{
+			if (!(array[i + 1] > '0' && array[i + 1] <= '9'))
+				return (false);
+			if (array[i + 1] == '0')
+				return (false);
+		}
+		else if (!(array[i] >= '0' && array[i] <= '9'))
+			return (false);
+		i++;
 	}
-	return(0);
+	return (true);
 }
 
-int		main(int argc, char **argv)
+t_bool	list_checkduplicate(t_list_stack *list)
 {
-	int				i;
-	t_stack			*stack_a;
-	t_list_stack	*stack_list;
-	
-	stack_list = (t_list_stack *)malloc(sizeof(t_list_stack));
-	stack_list->size = 0;
-	stack_list->head = NULL;
-	i = 1;
-	while (argc - 1 > 0)///херня
+	int		temp;
+	int		k;
+	t_stack	*stack;
+	t_stack	*iterate;
+
+	k = 0;
+	stack = list->head;
+	iterate = list->head;
+	while (iterate != NULL)
 	{
-		if (checker(argv[i]) == 0)
-			stack_list = add(stack_a, stack_list, &argv[i][0]);
-		else
+		temp = iterate->num;
+		while (stack != NULL)
 		{
-			ft_putstr("Error");
-			return(-1);
+			if (stack->num == temp)
+				k++;
+			if (k == 2)
+				return (false);
+			stack = stack->next;
+		}
+		iterate = iterate->next;
+		stack = list->head;
+		k = 0;
+	}
+	return (true);
+}
+
+int	main(int ac, char **arg)
+{
+	t_list_stack	*list;
+	t_list_stack	*new_list;
+	int	i;
+
+	i = 1;
+	list = NULL;
+	if (ac < 2)
+	{
+		ft_putstr("Error input\n");
+		return (0);
+	}
+	while (i < ac)
+	{
+		if (input_check_number(arg[i]) == false)
+		{
+			ft_putstr("Error on args\n");
+			return(0);
 		}
 		i++;
-		argc--;
 	}
-	print_stack(stack_list);
-	return(0);
+	i = 1;
+	while (i < ac)
+	{
+		list = form_first_list(list, ft_atoi(arg[i]));
+		i++;
+	}
+	if (list_checkduplicate(list) == false)
+	{
+		ft_putstr("Error dup\n");
+		return (0);
+	}
+	print_stack(list->head);
+	printf("\n");
+	new_list = list_sort_ascending(list);
+	set_index(new_list);
+	list_apply_index(list, new_list);
+	print_stack(list->head);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/02/29 13:34:45 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/01 14:41:37 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ void			list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete);
 t_list_stack	*list_copylist(t_list_stack *old);
 void			list_deleteall(t_list_stack *list);
 t_stack			*stack_copystack(t_stack *stack, t_bool save_next);
+t_list_stack	*list_sort_ascending(t_list_stack *list);
+void			set_index(t_list_stack *sortlist);
+void			list_apply_index(t_list_stack *dst, t_list_stack *src);
+
 
 //solve_actions
 void			markup_index(t_list_stack *list);
@@ -68,11 +72,17 @@ t_bool			sa_needed(t_list_stack *list);
 
 
 //commands
-void			pb(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
+void			sa(t_list_stack *a, t_list_comand *list_command, t_bool markup);
 void			pa(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
-void			sa(t_list_stack *list_stack, t_list_comand *list_command, t_bool markup);
 void			ra(t_list_stack *a, t_list_comand *list_command);
-
+void			rra(t_list_stack *a, t_list_comand *list_command);
+void			sb(t_list_stack *b, t_list_comand *list_command, t_bool markup);
+void			pb(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
+void			rb(t_list_stack *b, t_list_comand *list_command);
+void			rrb(t_list_stack *b, t_list_comand *list_command);
+void			ss(t_list_stack *a, t_list_stack *b, t_list_stack *list_command);
+void			rr(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
+void			rrr(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
 
 
 #endif // !PUSH_SWAP_H
