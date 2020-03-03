@@ -6,26 +6,11 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/01 19:51:27 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/02 15:44:27 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-int		print_stack(t_stack *stack)
-{
-	int	keepin;
-	while (stack != NULL)
-	{
-		if (stack->keep_in == true)
-			keepin = 1;
-		else
-			keepin = 0;
-		printf("%d  %d  %d\n", stack->num, stack->index, keepin);
-		stack = stack->next;
-	}
-	return(0);
-}
 
 t_list_stack	*form_first_list(t_list_stack *list, int num)
 {
@@ -42,6 +27,7 @@ t_list_stack	*form_first_list(t_list_stack *list, int num)
 		stack->num = num;
 		stack->next = NULL;
 		stack->index = -1;
+		stack->keep_in = false;
 		list->head = stack;
 	}
 	else
@@ -139,11 +125,8 @@ int	main(int ac, char **arg)
 		ft_putstr("Error dup\n");
 		return (0);
 	}
-	print_stack(list->head);
-	printf("\n");
-	new_list = list_sort_ascending(list);
-	set_index(new_list);
-	list_apply_index(list, new_list);
-	print_stack(list->head);
+	markup_big(list);
+	print_list(list, true, true);
+	solve_1(list);
 	return (0);
 }

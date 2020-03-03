@@ -6,7 +6,7 @@
 #    By: freimor <freimor@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/01 19:31:07 by freimor          ###   ########.fr        #
+#    Updated: 2020/03/02 16:01:50 by freimor          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ SRC =	push_swap.c \
 		command_actions.c \
 		list_actions.c \
 		operation_list_a.c \
+		operation_list_b.c \
+		operation_list_ab.c \
 		solve_actions.c \
-
+		print_additionals.c \
+		solve_1.c \
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

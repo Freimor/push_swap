@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/freimor/GIT/push_swap/push_swap",
-			"args": ["1", "2"],
+			"args": ["33", "11", "22", "0"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

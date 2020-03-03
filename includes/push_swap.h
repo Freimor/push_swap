@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/01 14:41:37 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/02 15:43:47 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ typedef enum
 	true
 }	t_bool;
 
-typedef	struct	s_comand
+typedef	struct	s_command
 {
 	char			*name;
-	struct s_comand	*next;
-}				t_comand;
+	struct s_command	*next;
+}				t_command;
 
-typedef	struct	s_list_comand
+typedef	struct	s_list_command
 {
 	int				size;
-	struct s_comand	*head;
-}				t_list_comand;
+	struct s_command	*head;
+}				t_list_command;
 
 typedef	struct	s_stack
 {
@@ -60,29 +60,36 @@ void			list_deleteall(t_list_stack *list);
 t_stack			*stack_copystack(t_stack *stack, t_bool save_next);
 t_list_stack	*list_sort_ascending(t_list_stack *list);
 void			set_index(t_list_stack *sortlist);
-void			list_apply_index(t_list_stack *dst, t_list_stack *src);
+t_stack			*list_apply_index(t_list_stack *dst, t_list_stack *src);
 
 
 //solve_actions
-void			markup_index(t_list_stack *list);
+void			markup_big(t_list_stack *list);
+void			markup_small(t_list_stack *list);
+
+//solve
+void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command);
+void			solve_1(t_list_stack *a);
 
 //command actions
-void			add_comand(t_list_comand *list_comands, char *comand);
+void			add_command(t_list_command *list_commands, char *comand);
 t_bool			sa_needed(t_list_stack *list);
 
 
 //commands
-void			sa(t_list_stack *a, t_list_comand *list_command, t_bool markup);
-void			pa(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
-void			ra(t_list_stack *a, t_list_comand *list_command);
-void			rra(t_list_stack *a, t_list_comand *list_command);
-void			sb(t_list_stack *b, t_list_comand *list_command, t_bool markup);
-void			pb(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
-void			rb(t_list_stack *b, t_list_comand *list_command);
-void			rrb(t_list_stack *b, t_list_comand *list_command);
-void			ss(t_list_stack *a, t_list_stack *b, t_list_stack *list_command);
-void			rr(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
-void			rrr(t_list_stack *a, t_list_stack *b, t_list_comand *list_command);
+void			sa(t_list_stack *a, t_list_command *list_command, t_bool markup);
+void			pa(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
+void			ra(t_list_stack *a, t_list_command *list_command);
+void			rra(t_list_stack *a, t_list_command *list_command);
+void			sb(t_list_stack *b, t_list_command *list_command, t_bool markup);
+void			pb(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
+void			rb(t_list_stack *b, t_list_command *list_command);
+void			rrb(t_list_stack *b, t_list_command *list_command);
+void			ss(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
+void			rr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
+void			rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 
+//print
+void			print_list(t_list_stack *list, t_bool with_index, t_bool with_mark);
 
 #endif // !PUSH_SWAP_H

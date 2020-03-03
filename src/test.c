@@ -6,7 +6,7 @@
 /*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:17:02 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/01 14:29:34 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/02 12:47:43 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(void)
 	t_stack			*two;
 	t_stack			*three;
 	t_stack			*new;
-	t_list_comand	*commands;
+	t_list_command	*commands;
 
 	three = (t_stack *)malloc(sizeof(t_stack));
 	three->num = 56;
