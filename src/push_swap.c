@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/02 15:44:27 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/05 13:43:15 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	main(int ac, char **arg)
 		ft_putstr("Error dup\n");
 		return (0);
 	}
-	markup_big(list);
 	print_list(list, true, true);
 	solve_1(list);
 	return (0);

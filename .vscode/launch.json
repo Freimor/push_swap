@@ -8,13 +8,13 @@
 			"name": "(gdb) Запустить",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/home/freimor/GIT/push_swap/push_swap",
-			"args": ["33", "11", "22", "0"],
+			"program": "/Users/sskinner/gitex/push_swap_git/push_swap",
+			"args": ["-1", "0", "31", "-2", "23"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "gdb",
+			"MIMode": "lldb",
 			"setupCommands": [
 				{
 					"description": "Включить автоматическое форматирование для gdb",

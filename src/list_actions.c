@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_actions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/02/29 13:21:56 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/05 13:23:37 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_list_stack	*list_copylist(t_list_stack *old)
 		new_stack->index = stack->index;
 		new_stack->keep_in = stack->keep_in;
 	}
+	new_stack->next = NULL;
 	return (new_list);
 }
 

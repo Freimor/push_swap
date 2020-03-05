@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:50:38 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/03 14:47:55 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:05:02 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,22 @@ t_stack	*list_apply_index(t_list_stack *dst, t_list_stack *src)
 	return(dst_stack);
 }
 
-void	markup_big(t_list_stack *list)
+void	markup(t_list_stack *list, t_bool indexing)
 {
 	t_list_stack	*index_list;
 	t_stack			*old_stack;
-	t_stack			*index_stack;
-	t_stack			*first;
 	int				index;
 
-	index_list = list_sort_ascending(list);
-	set_index(index_list);
-	first = list_apply_index(list, index_list);
-	index_stack = index_list->head;
+	if (indexing == true)
+	{
+		index_list = list_sort_ascending(list);
+		set_index(index_list);
+		list_apply_index(list, index_list);
+	}
+	list->head->keep_in = true;
 	old_stack = list->head;
-	first->keep_in = true;
-	index = first->index;
+	old_stack->keep_in = true;
+	index = old_stack->index;
 	while (old_stack != NULL)
 	{
 		if (old_stack->index == (index + 1))
@@ -102,43 +103,10 @@ void	markup_big(t_list_stack *list)
 			old_stack->keep_in = true;
 			index = old_stack->index;
 		}
-		else if (old_stack != first)
+		else if (old_stack != list->head)
 			old_stack->keep_in = false;
 		old_stack = old_stack->next;
 	}
-	list_deleteall(index_list);
-}
-
-void	markup_small(t_list_stack *list)
-{
-	t_stack	*stack;
-	int		index;
-	int		i;
-	int		min;
-
-	i = 1;
-	stack = list->head;
-	min = list->head->index;
-	while (stack != NULL)
-	{
-		if (stack->index < min)
-			min = stack->index;
-		stack = stack->next;
-	}
-	stack = list->head;
-	while (stack->index != min)
-		stack = stack->next;
-	index = stack->index;
-	stack = list->head;
-	while (stack != NULL)
-	{
-		if (stack->index == (index + i))
-		{
-			stack->keep_in = true;
-			i++;
-		}
-		else if (stack->index != index)
-			stack->keep_in = false;
-		stack = stack->next;
-	}
+	if (indexing == true)
+		list_deleteall(index_list);
 }

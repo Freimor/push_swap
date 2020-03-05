@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   operation_list_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/02 16:45:36 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:06:20 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	sb(t_list_stack *b, t_list_command *list_command, t_bool markup)
+void	sb(t_list_stack *b, t_list_command *list_command, t_bool mark)
 {
 	//swap b - swap the first 2 elements at the top of stack b. 
 	//Do nothing if there is only one or no elements).
@@ -28,8 +28,8 @@ void	sb(t_list_stack *b, t_list_command *list_command, t_bool markup)
 		free(temp);
 		if (list_command != NULL)
 			add_command(list_command,"sb");
-		if (markup == true)
-			markup_small(b);
+		if (mark == true)
+			markup(b, false);
 	}
 }
 
