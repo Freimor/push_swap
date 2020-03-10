@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 14:06:20 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/05 17:12:07 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ void	rb(t_list_stack *b, t_list_command *list_command)
 	//The first element becomes the last one.
 	t_stack	*stack;
 
-	stack = b->head;
-	list_add2tail(b, stack, true);
-	list_cut(b, b->head, true);
-	if (list_command != NULL)
+	if (b->head->next != NULL)
+	{
+		stack = b->head;
+		list_add2tail(b, stack, true);
+		list_cut(b, b->head, true);
+		if (list_command != NULL)
 			add_command(list_command,"rb");
+	}
 }
 
 void	rrb(t_list_stack *b, t_list_command *list_command)
@@ -83,12 +86,15 @@ void	rrb(t_list_stack *b, t_list_command *list_command)
 	t_stack	*stack;
 	t_stack	*temp;
 
-	stack = b->head;
-	temp = b->head;
-	while (temp->next->next != NULL)
-		temp = temp->next;
-	list_add2head(b, temp->next, true);
-	list_cut(b, temp->next, true);
-	if (list_command != NULL)
+	if (b->head->next != NULL)
+	{
+		stack = b->head;
+		temp = b->head;
+		while (temp->next->next != NULL)
+			temp = temp->next;
+		list_add2head(b, temp->next, true);
+		list_cut(b, temp->next, true);
+		if (list_command != NULL)
 			add_command(list_command,"rrb");
+	}
 }

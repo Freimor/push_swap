@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 14:54:37 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/10 13:22:32 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,35 @@ t_bool	check_align(t_list_stack *list)
 
 void	aligned(t_list_stack *list,t_list_command *command, t_bool its_a)
 {
-	t_stack *stack;
+	t_stack *stack_bottom;
 	t_bool	flag;
 
 	flag = false;
-	stack = list->head;
 	while (check_align(list) == false)
 	{
-		stack = list->head;
-		if (stack->index > stack->next->index)
+		stack_bottom = list->head;
+		while (stack_bottom->next != NULL)
+			stack_bottom = stack_bottom->next;
+		if (list->head->index > list->head->next->index && list->head->next->index != 0)
 		{
 			if (its_a == true)
 				sa(list, command, false);
 			else
 				sb(list, command, false);
 		}
-		else
+		else if ((stack_bottom->index + 1) == list->head->index)
 		{
 			if (its_a == true)
 				rra(list, command);
 			else
 				rrb(list, command);
+		}
+		else
+		{
+			if (its_a == true)
+				ra(list, command);
+			else
+				rb(list, command);
 		}
 	}
 }
@@ -105,24 +113,204 @@ void	solve_second(t_list_stack *a, t_list_stack *b, t_list_command *command)
       perform pa (push a) command*/
 	
 	t_stack	*stack_b;
+	t_stack *stack_bottom;
 
 	//markup(b, false);
 	stack_b = b->head;
-	aligned(b, command, false);
+	//aligned(b, command, false);
 	while (b->head != NULL)
 	{
+		stack_bottom = b->head;
+		while (stack_bottom->next != NULL)
+			stack_bottom = stack_bottom->next;
 		if ((a->head->index + 1) == b->head->index)
 		{
 			ra(a, command);
 			pa(a, b, command);
 		}
-		else if (a->head->index == (b->head->index + 1))
+/*		else if ((stack_bottom->index + 1) == a->head->index)
 		{
+			rrb(b, command);
 			pa(a, b, command);
+		}*/
+		else
+			ra(a, command);
+	}
+}
+
+int		mantiss(t_list_stack *list) //offset??
+{
+	int		summ;
+	int		i;
+	t_stack	*stack;
+
+	summ = 0;
+	i = 0;
+	stack = list->head;
+	while (stack != NULL)
+	{
+		i++;
+		summ += stack->index;
+		stack = stack->next;
+	}
+	return (summ / i);
+}
+
+int		list_len(t_list_stack *list)
+{
+	int		len;
+	t_stack *stack;
+
+	len = 0;
+	stack = list->head;
+	while (stack != NULL)
+	{
+		len++;
+		stack = stack->next;
+	}
+	return (len);
+}
+
+void		push2b(t_list_stack *a, t_list_stack *b, t_list_command *command)
+{
+	int		mantissa;
+	t_stack	*stack;
+
+	if (list_len(a) < 3)
+		aligned(a, command, true);
+	else
+	{
+		while (list_len(a) > 3)
+		{
+			mantissa = mantiss(a);
+			stack = a->head;
+			while (stack != NULL)
+			{
+				if (stack->index > mantissa)
+					pb(a, b, command);
+				if (stack->index <= mantissa)
+					ra(a, command);
+				stack = stack->next;
+			}
+		}
+	}
+	aligned(a, command, true);
+}
+
+t_bool		check_listmantiss(t_list_stack *list, int mantiss, t_bool its_a)
+{
+	t_stack *stack;
+
+	stack = list->head;
+	while (stack != NULL)
+	{
+		if ((its_a == true && stack->index > mantiss)
+		|| (its_a == false && stack->index < mantiss))
+			return(false);
+		stack = stack->next;
+	}
+	return (true);
+}
+
+void		drops_a2b(t_list_stack *a, t_list_stack *b, t_list_command *command, t_bool its_a)
+{
+	int		mantissa;
+	t_list_stack *list;
+
+	if (its_a == true)
+		list = a;
+	else
+		list = b;
+	mantissa = mantiss(list);
+	while (check_listmantiss(list, mantissa, true) == false)
+	{
+		if (list->head->index > mantissa)
+		{
+			if (its_a == true)
+				pb(a, b, command);
+			else
+				pa(a, b, command);
 		}
 		else
-			rra(a, command);
-		//print_list(b, true, true);	
+		{
+			if (its_a == true)
+				ra(a, command);
+			else
+				rb (b, command);
+		}
+	}
+}
+
+void		drops_b2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
+{
+	int		mantissa;
+
+	mantissa = mantiss(b);
+	while (check_listmantiss(b, mantissa, false) == false)
+	{
+		if (b->head->index < mantissa)
+			pa(a, b, command);
+		else
+			rb (b, command);
+	}
+}
+
+void		solve_try_1(t_list_stack *a, t_list_stack *b, t_list_command *command)
+{
+	while (list_len(a) > 3)
+		drops_a2b(a, b, command, true);
+	aligned(a, command, true);
+	drops_b2a(a, b, command);
+}
+
+t_stack		*find_stack(t_list_stack *list, int index)
+{
+	t_stack *stack;
+
+	if (list != NULL && list->head != NULL)
+	{
+		stack = list->head;
+		while (stack != NULL)
+		{
+			if (stack->index == index)
+				return (stack);
+			stack = stack->next;
+		}
+	}
+	return (NULL);
+}
+
+void	solve_try_2(t_list_stack *a, t_list_stack *b, t_list_command *command)
+{
+	//push 2 b if next ne index + 1
+	//align b
+	//check ( if next chislo index + 1 or b-> head podhodit)
+	int	save_index;
+	
+	save_index = -1;
+	ra(a, command);
+	while (check_align(a) == false || b->head != NULL)						///add rule swap maybe??
+	{
+		if (a->head->index == (save_index + 1))
+		{
+			save_index = a->head->index;
+			ra(a, command);
+		}
+		if ((b->head != NULL) && (find_stack(b, save_index + 1) != NULL))
+		{
+			while (b->head != find_stack(b, save_index + 1))				///mozhno optimizirovat rb and rrb
+				rb(b, command);
+			pa(a, b, command);
+			save_index = a->head->index;
+			ra(a, command);
+		}
+		else
+		{
+			if (a->head->index > save_index + 1)
+				pb(a, b, command);
+			else
+				rra(a, command);
+		}
 	}
 }
 
@@ -133,13 +321,17 @@ void	solve_1(t_list_stack *a)
 
 	b = (t_list_stack *)malloc(sizeof(t_list_stack));
 	b->head = NULL;
-	solve_first(a, b, command, true);
-	//aligned(a, command, true);
+//	solve_first(a, b, command, true);
+//	aligned(a, command, true);
 	//aligned(b, command, false);
-	solve_second(a, b, command);
-	aligned(a, command, true);	
+//	if (b->head != NULL)
+//		solve_second(a, b, command);
+//	aligned(a, command, true);
+	print_list(a, true, false);
+	printf("%d\n", mantiss(a));
+	solve_try_2(a, b, command);
 	ft_putstr("----------\n");
 	print_list(a, true, false);
 	ft_putstr("----------\n");
-	print_list(b, true, true);
+	print_list(b, true, false);
 }

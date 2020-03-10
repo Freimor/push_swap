@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/Users/sskinner/gitex/push_swap_git/push_swap",
-			"args": ["-1", "0", "31", "-2", "23"],
+			"args": ["65", "2", "32", "-1", "-2", "-11", "324", "0", "-4", "9883"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

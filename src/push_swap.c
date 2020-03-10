@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/05 13:43:15 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/09 14:44:38 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	main(int ac, char **arg)
 {
 	t_list_stack	*list;
 	t_list_stack	*new_list;
+	t_list_stack	*index_list;
 	int	i;
 
 	i = 1;
@@ -125,7 +126,10 @@ int	main(int ac, char **arg)
 		ft_putstr("Error dup\n");
 		return (0);
 	}
-	print_list(list, true, true);
+//	print_list(list, true, true);
+	index_list = list_sort_ascending(list);
+	set_index(index_list);
+	list_apply_index(list, index_list);
 	solve_1(list);
 	return (0);
 }

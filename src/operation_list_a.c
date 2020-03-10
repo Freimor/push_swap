@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 14:51:50 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/05 17:11:13 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ void	ra(t_list_stack *a, t_list_command *list_command)
 	//The first element becomes the last one.
 	t_stack	*stack;
 
-	stack = a->head;
-	list_add2tail(a, stack, true);
-	list_cut(a, a->head, true);
-	if (list_command != NULL)
+	if (a->head->next != NULL)
+	{
+		stack = a->head;
+		list_add2tail(a, stack, true);
+		list_cut(a, a->head, true);
+		if (list_command != NULL)
 			add_command(list_command,"ra");
+	}
 }
 
 void	rra(t_list_stack *a, t_list_command *list_command)
@@ -70,12 +73,15 @@ void	rra(t_list_stack *a, t_list_command *list_command)
 	t_stack	*stack;
 	t_stack	*temp;
 
-	stack = a->head;
-	temp = a->head;
-	while (temp->next->next != NULL)
-		temp = temp->next;
-	list_add2head(a, temp->next, true);
-	list_cut(a, temp->next, true);
-	if (list_command != NULL)
+	if (a->head->next != NULL)
+	{	
+		stack = a->head;
+		temp = a->head;
+		while (temp->next->next != NULL)
+			temp = temp->next;
+		list_add2head(a, temp->next, true);
+		list_cut(a, temp->next, true);
+		if (list_command != NULL)
 			add_command(list_command,"rra");
+	}
 }
