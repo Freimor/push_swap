@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_additionals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 12:16:23 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/02 14:07:48 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/10 13:50:06 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,19 @@ void		print_list(t_list_stack *list, t_bool with_index, t_bool with_mark)
 		}
 		ft_putchar('\n');
 		stack = stack->next;
+	}
+}
+
+void	print_commands(t_list_command *command)
+{
+	t_command *line;
+	
+	line = command->head;
+
+	while (line != NULL)
+	{
+		ft_putstr(line->name);
+		ft_putchar('\n');
+		line = line->next;
 	}
 }

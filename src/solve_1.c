@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/10 13:22:32 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/10 14:17:55 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,26 +280,54 @@ t_stack		*find_stack(t_list_stack *list, int index)
 	return (NULL);
 }
 
+void	targetstack2head_b(t_list_stack *b, t_list_command *command,  int index)
+{
+	t_stack	*stack;
+	int		a;
+	int		c;
+	
+	a = 0;
+	stack = b->head;
+	while (stack != NULL)
+	{
+		a++;
+		if (stack->index == index)
+			c = a;											////// a->5  b->3  
+		stack = stack->next;
+	}
+	while (b->head->index != index)
+	{
+		if (b->head->next->index == index)
+			sb(b, command, false);
+		else if (a - c < c)
+			rrb(b, command);
+		else
+			rb(b, command);
+	}
+}
+
 void	solve_try_2(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
-	//push 2 b if next ne index + 1
-	//align b
-	//check ( if next chislo index + 1 or b-> head podhodit)
 	int	save_index;
 	
 	save_index = -1;
 	ra(a, command);
 	while (check_align(a) == false || b->head != NULL)						///add rule swap maybe??
 	{
-		if (a->head->index == (save_index + 1))
+		if (a->head->next->index == save_index + 1)
+		{
+			sa(a, command, false);
+			save_index = a->head->index;
+			ra(a, command);
+		}
+		else if (a->head->index == (save_index + 1))
 		{
 			save_index = a->head->index;
 			ra(a, command);
 		}
-		if ((b->head != NULL) && (find_stack(b, save_index + 1) != NULL))
+		else if ((b->head != NULL) && (find_stack(b, save_index + 1) != NULL))
 		{
-			while (b->head != find_stack(b, save_index + 1))				///mozhno optimizirovat rb and rrb
-				rb(b, command);
+			targetstack2head_b(b, command, save_index + 1);
 			pa(a, b, command);
 			save_index = a->head->index;
 			ra(a, command);
@@ -320,7 +348,10 @@ void	solve_1(t_list_stack *a)
 	t_list_command		*command;
 
 	b = (t_list_stack *)malloc(sizeof(t_list_stack));
+	command = (t_list_command *)malloc(sizeof(t_list_command));
 	b->head = NULL;
+	command->head = NULL;
+	command->size = 0;
 //	solve_first(a, b, command, true);
 //	aligned(a, command, true);
 	//aligned(b, command, false);
@@ -328,10 +359,13 @@ void	solve_1(t_list_stack *a)
 //		solve_second(a, b, command);
 //	aligned(a, command, true);
 	print_list(a, true, false);
-	printf("%d\n", mantiss(a));
+	//printf("%d\n", mantiss(a));
 	solve_try_2(a, b, command);
+	ft_putstr("++++++++++\n");
+	print_commands(command);
 	ft_putstr("----------\n");
 	print_list(a, true, false);
 	ft_putstr("----------\n");
 	print_list(b, true, false);
+	printf("%d\n", command->size);
 }

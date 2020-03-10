@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/05 14:06:37 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/10 13:51:09 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command, t_
 void			solve_1(t_list_stack *a);
 
 //command actions
-void			add_command(t_list_command *list_commands, char *comand);
+void			add_command(t_list_command *list_commands, char *command);
 t_bool			sa_needed(t_list_stack *list);
 
 
@@ -89,5 +89,6 @@ void			rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 
 //print
 void			print_list(t_list_stack *list, t_bool with_index, t_bool with_mark);
+void			print_commands(t_list_command *command);
 
 #endif // !PUSH_SWAP_H

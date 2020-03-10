@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:32:32 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 14:16:42 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/10 14:17:19 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ void	add_command(t_list_command *list_commands, char *command)
 {
 	t_command	*commands;
 
-	commands = list_commands->head;
-	if (commands == NULL)
+	if (list_commands->head == NULL)
 	{
-		commands = (t_command *)malloc(sizeof(t_command));
-		commands->name = command;
-		commands->next = NULL;
+		list_commands->head = (t_command *)malloc(sizeof(t_command));
+		list_commands->head->name = command;
+		list_commands->head->next = NULL;
+		list_commands->size++;
 	}
 	else
 	{
+		commands = list_commands->head;
 		while (commands->next != NULL)
 			commands = commands->next;
 		commands->next = (t_command *)malloc(sizeof(t_command));
 		commands->next->name = command;
 		commands->next->next = NULL;
+		list_commands->size++;
 	}
 }
 
