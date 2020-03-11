@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/10 14:17:55 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:20:52 by freimor          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	solve_second(t_list_stack *a, t_list_stack *b, t_list_command *command)
 	}
 }
 
-int		mantiss(t_list_stack *list) //offset??
+int		mantiss(t_list_stack *list)
 {
 	int		summ;
 	int		i;
@@ -197,70 +197,72 @@ void		push2b(t_list_stack *a, t_list_stack *b, t_list_command *command)
 	aligned(a, command, true);
 }
 
-t_bool		check_listmantiss(t_list_stack *list, int mantiss, t_bool its_a)
+t_bool		check_listmantiss(t_list_stack *list, int mantiss)
 {
 	t_stack *stack;
 
 	stack = list->head;
 	while (stack != NULL)
 	{
-		if ((its_a == true && stack->index > mantiss)
-		|| (its_a == false && stack->index < mantiss))
+		if (stack->index < mantiss)
 			return(false);
 		stack = stack->next;
 	}
 	return (true);
 }
 
-void		drops_a2b(t_list_stack *a, t_list_stack *b, t_list_command *command, t_bool its_a)
+void		solve_after_presort(t_list_stack *a, t_list_command *command)
 {
-	int		mantissa;
-	t_list_stack *list;
-
-	if (its_a == true)
-		list = a;
-	else
-		list = b;
-	mantissa = mantiss(list);
-	while (check_listmantiss(list, mantissa, true) == false)
+	if (list_len(a) == 2)
 	{
-		if (list->head->index > mantissa)
+		if (a->head == a->head->next + 1)
+			sa(a, command, false);
+	}
+	else if (list_len(a) == 3)
+	{
+		while (check_align(a) == false)
 		{
-			if (its_a == true)
-				pb(a, b, command);
-			else
-				pa(a, b, command);
-		}
-		else
-		{
-			if (its_a == true)
+			if (a->head->index == a->head->next->index + 2
+			&& a->head->index == a->head->next->next->index + 1)
 				ra(a, command);
-			else
-				rb (b, command);
+			if (a->head->index + 1 == a->head->next->index
+			&& a->head->index == a->head->next->next->index + 1)
+				rra(a, command);
+			if (a->head->index == a->head->next->index + 1
+			&& a->head->index + 1 == a->head->next->next->index)
+				sa(a, command, false);
 		}
 	}
 }
 
-void		drops_b2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
+void		drops(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	int		mantissa;
+	t_bool	flag;
+	t_stack	*stack_bottom;
 
-	mantissa = mantiss(b);
-	while (check_listmantiss(b, mantissa, false) == false)
+	stack_bottom = a->head;
+	while (stack_bottom->next != NULL)
+			stack_bottom = stack_bottom->next;
+	mantissa = mantiss(a);
+	flag = false;
+	while (flag == false)
 	{
-		if (b->head->index < mantissa)
-			pa(a, b, command);
+		if (a->head == stack_bottom)
+			flag = true;
+		if (a->head->index < mantissa)
+			pb(a, b, command);
 		else
-			rb (b, command);
+			ra(a, command);
 	}
 }
 
-void		solve_try_1(t_list_stack *a, t_list_stack *b, t_list_command *command)
+void		presort(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	while (list_len(a) > 3)
-		drops_a2b(a, b, command, true);
-	aligned(a, command, true);
-	drops_b2a(a, b, command);
+	{
+		drops(a, b, command);
+	}
 }
 
 t_stack		*find_stack(t_list_stack *list, int index)
@@ -352,17 +354,12 @@ void	solve_1(t_list_stack *a)
 	b->head = NULL;
 	command->head = NULL;
 	command->size = 0;
-//	solve_first(a, b, command, true);
-//	aligned(a, command, true);
-	//aligned(b, command, false);
-//	if (b->head != NULL)
-//		solve_second(a, b, command);
-//	aligned(a, command, true);
 	print_list(a, true, false);
-	//printf("%d\n", mantiss(a));
-	solve_try_2(a, b, command);
+	//solve_try_2(a, b, command);
 	ft_putstr("++++++++++\n");
-	print_commands(command);
+	//print_commands(command);
+	presort(a, b, command);
+	solve_after_presort(a, command);
 	ft_putstr("----------\n");
 	print_list(a, true, false);
 	ft_putstr("----------\n");
