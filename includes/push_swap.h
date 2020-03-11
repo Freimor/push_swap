@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/10 13:51:09 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/11 17:43:22 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,29 @@ typedef enum
 
 typedef	struct	s_command
 {
-	char			*name;
-	struct s_command	*next;
-}				t_command;
+	char					*name;
+	struct s_command		*next;
+}							t_command;
 
 typedef	struct	s_list_command
 {
-	int				size;
-	struct s_command	*head;
-}				t_list_command;
+	int						size;
+	struct s_command		*head;
+}							t_list_command;
 
 typedef	struct	s_stack
 {
-	int				num;
-	int				index;
-	t_bool			keep_in;
-	struct s_stack	*next;
-}				t_stack;
+	int						num;
+	int						index;
+	struct s_list_command	*comand_list;
+	struct s_stack			*next;
+}							t_stack;
 
 typedef struct	s_list_stack
 {
-	int				size;
-	struct s_stack	*head;
-}				t_list_stack;
+	int						size;
+	struct s_stack			*head;
+}							t_list_stack;
 
 //list_actions
 void			list_add2head(t_list_stack *list, t_stack *node, t_bool copy);

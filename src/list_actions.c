@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 13:23:37 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/11 17:12:01 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	list_add2tail(t_list_stack *list, t_stack *node, t_bool copy)
 	if (copy == false)
 	{
 		stack = list->head;
-		while(stack->next != NULL)
+		while (stack->next != NULL)
 			stack = stack->next;
 		stack->next = node;
 	}
@@ -48,7 +48,7 @@ void	list_add2tail(t_list_stack *list, t_stack *node, t_bool copy)
 	{
 		temp = stack_copystack(node, false);
 		stack = list->head;
-		while(stack->next != NULL)
+		while (stack->next != NULL)
 			stack = stack->next;
 		stack->next = temp;
 	}
@@ -91,7 +91,7 @@ t_list_stack	*list_copylist(t_list_stack *old)
 	new_list->size = old->size;
 	new_stack->num = stack->num;
 	new_stack->index = stack->index;
-	new_stack->keep_in = stack->keep_in;
+	new_stack->comand_list = NULL;
 	while (stack->next != NULL)
 	{
 		new_stack->next = (t_stack *)malloc(sizeof(t_stack));
@@ -99,7 +99,6 @@ t_list_stack	*list_copylist(t_list_stack *old)
 		stack = stack->next;
 		new_stack->num = stack->num;
 		new_stack->index = stack->index;
-		new_stack->keep_in = stack->keep_in;
 	}
 	new_stack->next = NULL;
 	return (new_list);
@@ -127,7 +126,7 @@ t_stack			*stack_copystack(t_stack *stack, t_bool save_next)
 	new_stack = (t_stack *)malloc(sizeof(t_stack));
 	new_stack->num = stack->num;
 	new_stack->index = stack->index;
-	new_stack->keep_in = stack->keep_in;
+	new_stack->comand_list = NULL;
 	if (save_next == true)
 		new_stack->next = stack->next;
 	else

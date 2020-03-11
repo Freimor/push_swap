@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   solve_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/11 16:34:44 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/11 19:22:37 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-t_bool	check_keepin(t_list_stack *list)
-{
-	t_stack	*stack;
-
-	stack = list->head;
-	while (stack != NULL)
-	{
-		if (stack->keep_in == false)
-			return (false);
-		stack = stack->next;
-	}
-	return (true);
-}
 
 t_bool	check_align(t_list_stack *list)
 {
@@ -75,69 +61,6 @@ void	aligned(t_list_stack *list,t_list_command *command, t_bool its_a)
 	}
 }
 
-void	solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command, t_bool first)
-{
-	/*WHILE stack A has elements with "false" value in "Keep in Stack A" field
-      IF sa (swap a) is needed
-            perform sa (swap a) command
-            update markup
-      ELSE IF head element of stack A has "false" value in "Keep in Stack A" field
-            perform pb (push b) command
-      ELSE
-            perform ra (rotate a) command*/
-	t_stack	*stack_a;
-
-	stack_a = a->head;
-	if (first == true)
-		markup(a, true);
-	else
-		markup(a, false);
-	while (check_keepin(a) == false)
-	{
-		if (sa_needed(a) == true)
-			sa(a, command, true);
-		if (a->head->keep_in == false)
-			pb(a, b, command);
-		else
-			ra(a, command);
-		ft_putchar('\n');
-		print_list(a, true, true);
-	}
-}
-
-void	solve_second(t_list_stack *a, t_list_stack *b, t_list_command *command)
-{
-	/*WHILE stack B is not empty
-      choose element in stack B for moving to stack A
-      move stack A and stack B to prepare them for pa (push a) with chosen element
-      perform pa (push a) command*/
-	
-	t_stack	*stack_b;
-	t_stack *stack_bottom;
-
-	//markup(b, false);
-	stack_b = b->head;
-	//aligned(b, command, false);
-	while (b->head != NULL)
-	{
-		stack_bottom = b->head;
-		while (stack_bottom->next != NULL)
-			stack_bottom = stack_bottom->next;
-		if ((a->head->index + 1) == b->head->index)
-		{
-			ra(a, command);
-			pa(a, b, command);
-		}
-/*		else if ((stack_bottom->index + 1) == a->head->index)
-		{
-			rrb(b, command);
-			pa(a, b, command);
-		}*/
-		else
-			ra(a, command);
-	}
-}
-
 int		mantiss(t_list_stack *list)
 {
 	int		summ;
@@ -169,32 +92,6 @@ int		list_len(t_list_stack *list)
 		stack = stack->next;
 	}
 	return (len);
-}
-
-void		push2b(t_list_stack *a, t_list_stack *b, t_list_command *command)
-{
-	int		mantissa;
-	t_stack	*stack;
-
-	if (list_len(a) < 3)
-		aligned(a, command, true);
-	else
-	{
-		while (list_len(a) > 3)
-		{
-			mantissa = mantiss(a);
-			stack = a->head;
-			while (stack != NULL)
-			{
-				if (stack->index > mantissa)
-					pb(a, b, command);
-				if (stack->index <= mantissa)
-					ra(a, command);
-				stack = stack->next;
-			}
-		}
-	}
-	aligned(a, command, true);
 }
 
 t_bool		check_listmantiss(t_list_stack *list, int mantiss)
@@ -308,7 +205,7 @@ void	targetstack2head_b(t_list_stack *b, t_list_command *command,  int index)
 	}
 }
 
-void	solve_try_2(t_list_stack *a, t_list_stack *b, t_list_command *command)
+/*void	solve_try_2(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	int	save_index;
 	
@@ -342,6 +239,96 @@ void	solve_try_2(t_list_stack *a, t_list_stack *b, t_list_command *command)
 				rra(a, command);
 		}
 	}
+}*/
+
+void	clean_commands(t_list_stack *b)
+{
+	t_stack	*stack;
+
+	if (b->head != NULL)
+	{
+		stack = b->head;
+		while (stack != NULL)
+		{
+			free(stack->comand_list);
+			stack->comand_list = NULL;
+			stack = stack->next;
+		}
+	}
+}
+
+t_bool	rb_or_rrb(t_list_stack *b, int index)
+{
+	t_stack	*stack;
+	int	a;
+	int	c;
+
+	a = 0;
+	c = 0;
+	stack = b->head;
+	while (stack != NULL)
+	{
+		a++;
+		if (stack->index == index)
+			c = a;
+		stack = stack->next;
+	}
+	return (a - c > c ? true : false);
+}
+
+void	stage_1(t_list_stack *b, int index)			//not debag
+{
+	t_stack			*stack;
+	t_bool			flag;
+	t_list_stack	*copy_list;
+
+	copy_list = list_copylist(b);
+	stack = b->head;
+	while (stack->index == index)
+		stack = stack->next;
+	if (rb_or_rrb(b, index) == true)
+		flag = true;
+	else
+		flag = false;
+	while (copy_list->head != stack)
+	{
+		if (flag == true)
+			rb(copy_list, stack->comand_list);
+		else
+			rrb(copy_list, stack->comand_list);
+	}
+	free(copy_list);
+}
+
+void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
+{
+	t_stack			*stack_a;
+	t_stack			*stack_b;
+	t_bool			flag;
+	t_list_stack	*copy_list;
+	
+	copy_list = list_copylist(a);
+	stack_a = a->head;
+	stack_b = b->head;	
+	while (stack_a->index == index + 1)			//может расчитать для index + 1 и index - 1? Необязательно такие числа есть в стеке
+		stack_a = stack_a->next;					// Найти ближайший индекс к нашему числу
+	if (rb_or_rrb(a, index + 1) == true)
+		flag = true;
+}
+
+void	update_stack_comands(t_list_stack *a, t_list_stack *b)
+{
+	t_stack			*stack;
+
+	stack = b->head;
+	clean_commands(b);
+	while (stack != NULL)
+	{
+		stage_1(b, stack->index);
+		stage_2(a, b, stack->index);
+		add_command(stack->comand_list, "pa");
+		stack = stack->next;
+	}
 }
 
 void	solve_1(t_list_stack *a)
@@ -355,7 +342,6 @@ void	solve_1(t_list_stack *a)
 	command->head = NULL;
 	command->size = 0;
 	print_list(a, true, false);
-	//solve_try_2(a, b, command);
 	ft_putstr("++++++++++\n");
 	//print_commands(command);
 	presort(a, b, command);
