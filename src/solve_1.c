@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/11 19:22:37 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:21:54 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,20 +300,93 @@ void	stage_1(t_list_stack *b, int index)			//not debag
 	free(copy_list);
 }
 
+int		find_min_or_max(t_list_stack *list, t_bool min)
+{
+	t_stack		*stack;
+	int			perem;
+	
+	if (list->head)
+	{
+		stack = list->head->next;
+		perem = list->head->index;
+		while (stack != NULL)
+		{
+			if (min == true)
+			{
+				if (stack->index < perem)
+					perem = stack->index;
+			}
+			else
+			{
+				if (stack->index > perem)
+					perem = stack->index;
+			}
+			stack = stack->next;
+		}
+		return (perem);
+	}
+	else
+		return (-1);
+}
+
+int		find_closest_index(t_list_stack *a, int index)
+{
+	t_stack		*stack;
+	int			min;
+	int			max;
+	
+	if (a->head)
+	{
+		stack = a->head;
+		min = find_min_or_max(a, true);
+		max = find_min_or_max(a, false);
+
+		while (stack != NULL)
+		{
+			if (stack->index >= min && stack->index < index)
+				min = stack->index;
+			if (stack->index <= max && stack->index > index)
+				max = stack->index;
+			stack = stack->next;
+		}
+		if (index - min > max - index)
+			return (min);
+		else
+			return (max);
+	}
+	return (-1);
+}
+
 void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 {
 	t_stack			*stack_a;
 	t_stack			*stack_b;
 	t_bool			flag;
 	t_list_stack	*copy_list;
+	int				closest_index;
 	
 	copy_list = list_copylist(a);
 	stack_a = a->head;
 	stack_b = b->head;	
-	while (stack_a->index == index + 1)			//может расчитать для index + 1 и index - 1? Необязательно такие числа есть в стеке
-		stack_a = stack_a->next;					// Найти ближайший индекс к нашему числу
-	if (rb_or_rrb(a, index + 1) == true)
+	//может расчитать для index + 1 и index - 1? Необязательно такие числа есть в стеке
+	// Найти ближайший индекс к нашему числу
+	while (stack_b->index == index)
+		stack_b = stack_b->next;
+	closest_index = find_closest_index(a, index);
+	if (rb_or_rrb(a, closest_index) == true)
 		flag = true;
+	else
+		flag = false;
+	while (copy_list->head->index != closest_index)
+	{
+		if (flag == true)
+			ra(copy_list, stack_b->comand_list);
+		else if (flag == false)
+			rra(copy_list, stack_b->comand_list);
+	}
+	if (closest_index < index)
+		ra(copy_list, stack_b->comand_list);
+	free(copy_list);
 }
 
 void	update_stack_comands(t_list_stack *a, t_list_stack *b)
