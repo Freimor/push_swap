@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 12:16:23 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/10 13:50:06 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:41:04 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		print_part(int num, int len)
 	free(str);
 }
 
-void		print_list(t_list_stack *list, t_bool with_index, t_bool with_mark)
+void		print_list(t_list_stack *list, t_bool with_index)
 {
 	t_stack	*stack;
 	int		keepin;
@@ -75,14 +75,6 @@ void		print_list(t_list_stack *list, t_bool with_index, t_bool with_mark)
 		{
 			ft_putstr(" : ");
 			print_part(stack->index, l_index);
-		}
-		if (with_mark == true)
-		{
-			ft_putstr(" : ");
-			if (stack->keep_in == true)
-				print_part(1, l_index);
-			else
-				print_part(0, l_index);
 		}
 		ft_putchar('\n');
 		stack = stack->next;

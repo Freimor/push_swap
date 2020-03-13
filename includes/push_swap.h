@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/11 17:43:22 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:42:09 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ t_bool			sa_needed(t_list_stack *list);
 
 
 //commands
-void			sa(t_list_stack *a, t_list_command *list_command, t_bool mark);
+void			sa(t_list_stack *a, t_list_command *list_command);
 void			pa(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 void			ra(t_list_stack *a, t_list_command *list_command);
 void			rra(t_list_stack *a, t_list_command *list_command);
-void			sb(t_list_stack *b, t_list_command *list_command, t_bool mark);
+void			sb(t_list_stack *b, t_list_command *list_command);
 void			pb(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 void			rb(t_list_stack *b, t_list_command *list_command);
 void			rrb(t_list_stack *b, t_list_command *list_command);
@@ -88,7 +88,7 @@ void			rr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 void			rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 
 //print
-void			print_list(t_list_stack *list, t_bool with_index, t_bool with_mark);
+void			print_list(t_list_stack *list, t_bool with_index);
 void			print_commands(t_list_command *command);
 
 #endif // !PUSH_SWAP_H

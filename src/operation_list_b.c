@@ -6,13 +6,13 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 17:12:07 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:56:26 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	sb(t_list_stack *b, t_list_command *list_command, t_bool mark)
+void	sb(t_list_stack *b, t_list_command *list_command)
 {
 	//swap b - swap the first 2 elements at the top of stack b. 
 	//Do nothing if there is only one or no elements).
@@ -28,8 +28,6 @@ void	sb(t_list_stack *b, t_list_command *list_command, t_bool mark)
 		free(temp);
 		if (list_command != NULL)
 			add_command(list_command,"sb");
-		if (mark == true)
-			markup(b, false);
 	}
 }
 
@@ -52,8 +50,8 @@ void	pb(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 		{
 			b->head->num = temp->num;
 			b->head->index = temp->index;
-			b->head->keep_in = temp->keep_in;
 			b->head->next = NULL;
+			b->head->comand_list = NULL;
 		}
 		else
 			list_add2head(b, temp, true);

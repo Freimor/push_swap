@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operation_list_ab.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: freimor <freimor@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/02 12:49:36 by freimor          ###   ########.fr       */
+/*   Updated: 2020/03/13 14:42:24 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	ss(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 {
 	//sa and sb at the same time.
-	sa(a, NULL, false);
-	sb(b, NULL, false);
+	sa(a, NULL);
+	sb(b, NULL);
 	if (list_command != NULL)
 			add_command(list_command,"ss");
 }

@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/09 14:44:38 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:39:23 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_list_stack	*form_first_list(t_list_stack *list, int num)
 		stack->num = num;
 		stack->next = NULL;
 		stack->index = -1;
-		stack->keep_in = false;
 		list->head = stack;
 	}
 	else

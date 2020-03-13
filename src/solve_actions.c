@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:50:38 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/05 14:05:02 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/13 14:40:32 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,35 +78,4 @@ t_stack	*list_apply_index(t_list_stack *dst, t_list_stack *src)
 	while (dst_stack->index != 0)
 		dst_stack = dst_stack->next;
 	return(dst_stack);
-}
-
-void	markup(t_list_stack *list, t_bool indexing)
-{
-	t_list_stack	*index_list;
-	t_stack			*old_stack;
-	int				index;
-
-	if (indexing == true)
-	{
-		index_list = list_sort_ascending(list);
-		set_index(index_list);
-		list_apply_index(list, index_list);
-	}
-	list->head->keep_in = true;
-	old_stack = list->head;
-	old_stack->keep_in = true;
-	index = old_stack->index;
-	while (old_stack != NULL)
-	{
-		if (old_stack->index == (index + 1))
-		{
-			old_stack->keep_in = true;
-			index = old_stack->index;
-		}
-		else if (old_stack != list->head)
-			old_stack->keep_in = false;
-		old_stack = old_stack->next;
-	}
-	if (indexing == true)
-		list_deleteall(index_list);
 }
