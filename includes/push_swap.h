@@ -6,14 +6,13 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/15 13:06:32 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/15 17:32:52 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 
-#define ABS(x) ((x) > 0 ? (x) : (-x))
 #include "../libft/includes/libft.h"
 #include <inttypes.h>
 #include <stdlib.h>
@@ -91,5 +90,8 @@ void			rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 //print
 void			print_list(t_list_stack *list, t_bool with_index);
 void			print_commands(t_list_command *command);
+
+//utils
+int				ft_abs(int a);
 
 #endif // !PUSH_SWAP_H

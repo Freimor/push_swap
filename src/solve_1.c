@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/15 13:07:11 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/15 18:05:09 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,30 +275,70 @@ int		find_min_or_max(t_list_stack *list, t_bool min)
 		return (-1);
 }
 
-int		find_closest_index(t_list_stack *a, int index)
+/*int		find_closest_index(t_list_stack *a, int index)
 {
 	t_stack		*stack;
 	int			min;
 	int			max;
+	int			temp_min;
+	int			temp_max;
 	
 	if (a->head)
 	{
 		stack = a->head;
 		min = find_min_or_max(a, true);
-		max = find_min_or_max(a, false);
+		//max = find_min_or_max(a, false);
 
+		temp_min = find_min_or_max(a, false);
+		temp_max = find_min_or_max(a, false);
 		while (stack != NULL)
 		{
-			if (stack->index >= min && stack->index < index)
+			if (stack->index < index && ft_abs(index - stack->index) < temp_min)
+			{
 				min = stack->index;
-			if (stack->index <= max && stack->index > index)
+				temp_min = ft_abs(index - stack->index);
+			}
+			else if (stack->index > index && ft_abs(index - stack->index) < temp_max)
+			{
 				max = stack->index;
+				temp_max = ft_abs(index - stack->index);
+			}
 			stack = stack->next;
 		}
-		if (index - min > max - index)
+		if (temp_min < temp_max)
 			return (min);
 		else
 			return (max);
+	}
+	return (-1);
+}*/
+
+int		find_closest_index(t_list_stack *a, int index)				//not debag
+{
+	t_stack		*stack;
+	int			closest_index;
+	int			temp;
+	
+	if (a->head)
+	{
+		stack = a->head;
+		closest_index = stack->index;
+		temp = ft_abs(stack->index - index);
+		while (stack != NULL)
+		{
+			if (ft_abs(stack->index - index) == temp)
+			{
+				if (closest_index < stack->index)
+					closest_index = stack->index;
+			}
+			else if (ft_abs(stack->index - index) < temp)
+			{
+				temp = ft_abs(stack->index - index);
+				closest_index = stack->index;
+			}
+			stack = stack->next;
+		}
+		return(closest_index);
 	}
 	return (-1);
 }
@@ -310,6 +350,7 @@ void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	t_list_stack	*copy_list;
 	int				closest_index;
 	
+	flag = false;
 	copy_list = list_copylist(a);
 	stack_b = b->head;
 	while (stack_b->index != index)
@@ -317,8 +358,6 @@ void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	closest_index = find_closest_index(a, index);
 	if (rb_or_rrb(a, closest_index) == true)
 		flag = true;
-	else
-		flag = false;
 	while (copy_list->head->index != closest_index)
 	{
 		if (flag == true)
@@ -328,9 +367,9 @@ void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	}
 	if (closest_index < index)
 	{
-		ra(copy_list, stack_b->comand_list);
+		add_command(stack_b->comand_list, "ra");
 		add_command(stack_b->comand_list, "pa");
-		rra(copy_list, stack_b->comand_list);
+		add_command(stack_b->comand_list, "rra");
 	}
 	else
 		add_command(stack_b->comand_list, "pa");
@@ -352,11 +391,10 @@ void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 		}
 		stage_1(b, stack->index);
 		stage_2(a, b, stack->index);
-		//add_command(stack->comand_list, "pa");
 		stack = stack->next;
 	}
 }
-void		solve_after_presort(t_list_stack *a, t_list_command *command)
+void		solve_after_presort(t_list_stack *a, t_list_command *command)			//pererabotat
 {
 	if (list_len(a) == 2)
 	{
@@ -521,7 +559,7 @@ void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 		}
 		stack_b = stack_b->next;
 	}
-	double_command_update(save);
+	//double_command_update(save);
 	//add_command_to_main_list(save->comand_list, command);
 	exec_command_list(save->comand_list, command, a ,b);
 }
@@ -544,7 +582,7 @@ void	solve_1(t_list_stack *a)
 	{
 		update_stack_comands(a, b);
 		push_minb2a(a, b, command);
-		aligned(a, command, true);
+//		aligned(a, command, true);
 	}
 	ft_putstr("----------\n");
 	print_list(a, true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ojessi <ojessi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/04 18:18:09 by ojessi            #+#    #+#             */
-/*   Updated: 2019/06/10 17:15:48 by ojessi           ###   ########.fr       */
+/*   Updated: 2020/03/15 17:34:20 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_list				*ft_list_add(void *str, int elem);
 t_list				*ft_list_push_back(t_list **begin_list,
 		void *str, int elem);
 t_list				*ft_list_foreach_if(t_list *begin_list, int elem);
-void				ft_abs(int *nbr);
+int					ft_abs(int a);
 void				ft_absf(float *nbr);
 float				ft_truncf(float nbr);
 int					ft_pow(int nbr, int power);
