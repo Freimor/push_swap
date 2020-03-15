@@ -6,13 +6,14 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/13 14:42:09 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/15 13:06:32 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 
+#define ABS(x) ((x) > 0 ? (x) : (-x))
 #include "../libft/includes/libft.h"
 #include <inttypes.h>
 #include <stdlib.h>

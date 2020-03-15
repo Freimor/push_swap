@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/13 18:45:50 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/15 13:07:11 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,8 +375,10 @@ void		solve_after_presort(t_list_stack *a, t_list_command *command)
 			else if (a->head->index + 1 == a->head->next->index
 			&& a->head->index == a->head->next->next->index + 1)
 				rra(a, command);
-			else if (a->head->index == a->head->next->index + 1
-			&& a->head->index == a->head->next->next->index + 2)
+			else if ((a->head->index == a->head->next->index + 1
+			&& a->head->index == a->head->next->next->index + 2) ||
+			(a->head->index == a->head->next->index + 1
+			&& a->head->index + 1 == a->head->next->next->index))
 				sa(a, command);
 		}
 	}
@@ -464,6 +466,43 @@ void	exec_command_list(t_list_command *rules, t_list_command *command, t_list_st
 	}
 }
 
+void	double_command_replace(t_stack *stack, int array[])
+{
+	t_command		*command;
+
+	command = stack->comand_list->head;
+	while (command != NULL)
+	{
+		
+	}
+}
+
+void	double_command_update(t_stack *stack)
+{
+	t_command		*command;
+	int				array[4];
+
+	array[0] = 0;
+	array[1] = 0;
+	array[2] = 0;
+	array[3] = 0;
+	
+	command = stack->comand_list->head;
+	while (command != NULL)
+	{
+		if (ft_strequ(command->name, "ra") == 1)
+			array[0]++;
+		else if (ft_strequ(command->name, "rra") == 1)
+			array[1]++;
+		else if (ft_strequ(command->name, "rb") == 1)
+			array[2]++;
+		else if (ft_strequ(command->name, "rrb") == 1)
+			array[3]++;
+		command = command->next;
+	}
+	double_command_replace(stack, array);
+}
+
 void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	t_stack	*stack_b;
@@ -482,6 +521,7 @@ void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 		}
 		stack_b = stack_b->next;
 	}
+	double_command_update(save);
 	//add_command_to_main_list(save->comand_list, command);
 	exec_command_list(save->comand_list, command, a ,b);
 }
