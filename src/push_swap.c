@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/13 14:39:23 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/16 17:02:10 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,10 @@ int	main(int ac, char **arg)
 	index_list = list_sort_ascending(list);
 	set_index(index_list);
 	list_apply_index(list, index_list);
+	// if (rb_or_rrb(list, 2) == true)
+	// 	printf("ra");
+	// else
+	// 	printf("rra");
 	solve_1(list);
 	return (0);
 }

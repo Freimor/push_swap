@@ -6,7 +6,7 @@
 #    By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/15 19:52:00 by sskinner         ###   ########.fr        #
+#    Updated: 2020/03/16 19:21:42 by sskinner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC =	push_swap.c \
 		solve_actions.c \
 		print_additionals.c \
 		solve_1.c \
+		algos.c \
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

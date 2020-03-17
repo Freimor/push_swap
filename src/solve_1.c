@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/15 18:05:09 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:32:50 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,6 @@ t_bool	check_align(t_list_stack *list)
 		stack = stack->next;
 	}
 	return (true);
-}
-
-void	aligned(t_list_stack *list,t_list_command *command, t_bool its_a)
-{
-	t_stack *stack_bottom;
-	t_bool	flag;
-
-	flag = false;
-	while (check_align(list) == false)
-	{
-		stack_bottom = list->head;
-		while (stack_bottom->next != NULL)
-			stack_bottom = stack_bottom->next;
-		if (list->head->index > list->head->next->index && list->head->next->index != 0)
-		{
-			if (its_a == true)
-				sa(list, command);
-			else
-				sb(list, command);
-		}
-		else if ((stack_bottom->index + 1) == list->head->index)
-		{
-			if (its_a == true)
-				rra(list, command);
-			else
-				rrb(list, command);
-		}
-		else
-		{
-			if (its_a == true)
-				ra(list, command);
-			else
-				rb(list, command);
-		}
-	}
 }
 
 int		mantiss(t_list_stack *list)
@@ -203,39 +168,19 @@ void	clean_commands(t_list_stack *b)
 	}
 }
 
-t_bool	rb_or_rrb(t_list_stack *b, int index)
-{
-	t_stack	*stack;
-	int	a;
-	int	c;
-
-	a = 0;
-	c = 0;
-	stack = b->head;
-	while (stack != NULL)
-	{
-		a++;
-		if (stack->index == index)
-			c = a;
-		stack = stack->next;
-	}
-	return (a - c > c ? true : false);
-}
-
 void	stage_1(t_list_stack *b, int index)			//not debag
 {
 	t_stack			*stack;
 	t_bool			flag;
 	t_list_stack	*copy_list;
 
+	flag = false;
 	copy_list = list_copylist(b);
 	stack = b->head;
 	while (stack->index != index)
 		stack = stack->next;
 	if (rb_or_rrb(b, index) == true)
 		flag = true;
-	else
-		flag = false;
 	while (copy_list->head->index != stack->index)
 	{
 		if (flag == true)
@@ -246,7 +191,7 @@ void	stage_1(t_list_stack *b, int index)			//not debag
 	free(copy_list);
 }
 
-int		find_min_or_max(t_list_stack *list, t_bool min)
+int		find_min_or_max_index(t_list_stack *list, t_bool min)
 {
 	t_stack		*stack;
 	int			perem;
@@ -367,7 +312,7 @@ void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	}
 	if (closest_index < index)
 	{
-		add_command(stack_b->comand_list, "ra");
+		add_command(stack_b->comand_list, "ra");			///??
 		add_command(stack_b->comand_list, "pa");
 		add_command(stack_b->comand_list, "rra");
 	}
@@ -382,6 +327,7 @@ void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 
 	stack = b->head;
 	clean_commands(b);
+	printf("after clear\n");
 	while (stack != NULL)
 	{
 		if (stack->comand_list == NULL)
@@ -391,10 +337,16 @@ void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 		}
 		stage_1(b, stack->index);
 		stage_2(a, b, stack->index);
+		printf("A:\n");
+		print_list(a, true);
+		printf("B:\n");
+		print_list(b, true);
+		print_commands(stack->comand_list);
+		printf("-------\n");
 		stack = stack->next;
 	}
 }
-void		solve_after_presort(t_list_stack *a, t_list_command *command)			//pererabotat
+void		solve_after_presort(t_list_stack *a, t_list_command *command)			//rabotaet ispravno
 {
 	if (list_len(a) == 2)
 	{
@@ -471,49 +423,56 @@ void		presort_a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 	}
 }*/
 
-void	exec_command_list(t_list_command *rules, t_list_command *command, t_list_stack *a, t_list_stack *b)
+void	exec_command_list(int index, t_list_command *command, t_list_stack *a, t_list_stack *b)
 {
-	t_command *rule;
-	
-	rule = rules->head;
-	while (rule != NULL)
+	t_stack		*stack_b;
+	t_command	*commands;
+
+	stack_b = b->head;
+	while (stack_b->index != index)
+		stack_b = stack_b->next;
+	commands = stack_b->comand_list->head;
+	while (commands != NULL)
 	{
-		if (ft_strequ("sa", rule->name) == 1)
+		if (ft_strequ("sa", commands->name) == 1)
 			sa(a, command);
-		else if (ft_strequ("pa", rule->name) == 1)
+		else if (ft_strequ("pa", commands->name) == 1)
 			pa(a, b, command);
-		else if (ft_strequ("ra", rule->name) == 1)
+		else if (ft_strequ("ra", commands->name) == 1)
 			ra(a, command);
-		else if (ft_strequ("rra", rule->name) == 1)
+		else if (ft_strequ("rra", commands->name) == 1)
 			rra(a, command);
-		else if (ft_strequ("sb", rule->name) == 1)
+		else if (ft_strequ("sb", commands->name) == 1)
 			sb(a, command);
-		else if (ft_strequ("pb", rule->name) == 1)
+		else if (ft_strequ("pb", commands->name) == 1)
 			pb(a, b, command);
-		else if (ft_strequ("rb", rule->name) == 1)
+		else if (ft_strequ("rb", commands->name) == 1)
 			rb(a, command);
-		else if (ft_strequ("rrb", rule->name) == 1)
+		else if (ft_strequ("rrb", commands->name) == 1)
 			rrb(a, command);
-		else if (ft_strequ("ss", rule->name) == 1)
+		else if (ft_strequ("ss", commands->name) == 1)
 			ss(a, b, command);
-		else if (ft_strequ("rr", rule->name) == 1)
+		else if (ft_strequ("rr", commands->name) == 1)
 			rr(a, b, command);
-		else if (ft_strequ("rrr", rule->name) == 1)
+		else if (ft_strequ("rrr", commands->name) == 1)
 			rrr(a, b, command);
-		rule = rule->next;
+		commands = commands->next;
 	}
 }
 
-void	double_command_replace(t_stack *stack, int array[])
+/*void	double_command_replace(t_stack *stack, int array[])
 {
 	t_command		*command;
+	int				i;
 
+	i = 0;
 	command = stack->comand_list->head;
 	while (command != NULL)
 	{
+		i = ft_abs(array[0] - array[2]);
 		
 	}
-}
+}*/
 
 void	double_command_update(t_stack *stack)
 {
@@ -538,30 +497,84 @@ void	double_command_update(t_stack *stack)
 			array[3]++;
 		command = command->next;
 	}
-	double_command_replace(stack, array);
+	//double_command_replace(stack, array);
 }
+
+/*void	exec_command(char	*str, t_list_command *command, t_list_stack *a, t_list_stack *b)
+{
+	if (ft_strequ("sa", str) == 1)
+		sa(a, command);
+	else if (ft_strequ("pa", str) == 1)
+		pa(a, b, command);
+	else if (ft_strequ("ra", str) == 1)
+		ra(a, command);
+	else if (ft_strequ("rra", str) == 1)
+		rra(a, command);
+	else if (ft_strequ("sb", str) == 1)
+		sb(a, command);
+	else if (ft_strequ("pb", str) == 1)
+		pb(a, b, command);
+	else if (ft_strequ("rb", str) == 1)
+		rb(a, command);
+	else if (ft_strequ("rrb", str) == 1)
+		rrb(a, command);
+	else if (ft_strequ("ss", str) == 1)
+		ss(a, b, command);
+	else if (ft_strequ("rr", str) == 1)
+		rr(a, b, command);
+	else if (ft_strequ("rrr", str) == 1)
+		rrr(a, b, command);
+}*/
 
 void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
-	t_stack	*stack_b;
-	t_stack	*save;
+	t_stack		*stack_b;
+	t_stack		*save;
+	t_command	*comm;
 	int		min;
 	
 	stack_b = b->head;
 	min = stack_b->comand_list->size;
 	save = stack_b;
+	
 	while (stack_b->next != NULL)
 	{
 		if (stack_b->next->comand_list->size < min)
 		{
-			save = stack_b;
+			save = stack_b->next;
 			min = stack_b->next->comand_list->size;
 		}
 		stack_b = stack_b->next;
 	}
+	printf("%d : %d <------\n", save->num, save->index);
+	
+	while (b->head != save)				//kostil
+	{
+		rb(b, NULL);
+	}
+	
 	//double_command_update(save);
-	//add_command_to_main_list(save->comand_list, command);
-	exec_command_list(save->comand_list, command, a ,b);
+	/*comm = save->comand_list->head;
+	while (comm != NULL)
+	{
+		exec_command(comm->name, command, a, b);
+		comm = comm->next;
+	}*/
+	exec_command_list(save->index, command, a ,b);			//!!!!!!!!!!!!!!!!!!!!!!!!
+}
+
+void	zero_to_head(t_list_stack *a, t_list_command *command)
+{
+	t_bool	flag;
+	
+	flag = rb_or_rrb(a, 0);
+	while (a->head->index != 0)
+	{
+		if (flag == true)
+			ra(a, command);
+		else
+			rra(a, command);
+	}
 }
 
 void	solve_1(t_list_stack *a)
@@ -582,13 +595,15 @@ void	solve_1(t_list_stack *a)
 	{
 		update_stack_comands(a, b);
 		push_minb2a(a, b, command);
-//		aligned(a, command, true);
+	//	aligned(a, command, true);
 	}
+	zero_to_head(a, command);
 	ft_putstr("----------\n");
 	print_list(a, true);
 	ft_putstr("----------\n");
 	print_list(b, true);
 	printf("%d\n", command->size);
+	//print_commands(command);
 }
 
 

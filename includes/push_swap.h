@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/15 17:32:52 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/16 19:07:12 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ void			print_commands(t_list_command *command);
 
 //utils
 int				ft_abs(int a);
+t_bool			rb_or_rrb(t_list_stack *b, int index);
+
 
 #endif // !PUSH_SWAP_H

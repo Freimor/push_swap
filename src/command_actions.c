@@ -6,7 +6,7 @@
 /*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:32:32 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/13 15:01:37 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/16 15:28:14 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,8 @@ void	add_command(t_list_command *list_commands, char *command)
 		list_commands->size++;
 	}
 }
+
+/*void	remove_command(t_list_command *list_command, char *s_command)
+{
+	t_command	*
+}*/
