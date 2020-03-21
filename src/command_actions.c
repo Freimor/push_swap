@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:32:32 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 11:50:00 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/21 15:17:40 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	command_delete(t_list_command *list_commands, char *command)
 	}
 }
 
-void	command_replace(t_list_command *list_commands, char *remove, char *need)
+static void	command_replace(t_list_command *list_commands, char *remove, char *need)
 {
 	t_command	*commands;
 	t_command	*temp;

@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 11:21:13 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/21 14:51:19 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,19 +118,4 @@ void			list_deleteall(t_list_stack *list)
 		stack = temp;
 	}
 	free(list);
-}
-
-t_stack			*stack_copystack(t_stack *stack, t_bool save_next)
-{
-	t_stack	*new_stack;
-	
-	new_stack = (t_stack *)malloc(sizeof(t_stack));
-	new_stack->num = stack->num;
-	new_stack->index = stack->index;
-	new_stack->comand_list = NULL;
-	if (save_next == true)
-		new_stack->next = stack->next;
-	else
-		new_stack->next = NULL;
-	return(new_stack);
 }

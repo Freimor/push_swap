@@ -6,13 +6,13 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/21 08:43:17 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/21 16:04:07 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-t_list_stack	*form_first_list(t_list_stack *list, int num)
+static t_list_stack	*form_first_list(t_list_stack *list, int num)
 {
 	t_stack *stack;
 
@@ -40,55 +40,6 @@ t_list_stack	*form_first_list(t_list_stack *list, int num)
 		stack->next->index = -1;
 	}
 	return(list);
-}
-
-int		input_check_number(char *array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != '\0')
-	{
-		if (array[i] == '+' || array[i] == '-')
-		{
-			if (!(array[i + 1] > '0' && array[i + 1] <= '9'))
-				return (false);
-			if (array[i + 1] == '0')
-				return (false);
-		}
-		else if (!(array[i] >= '0' && array[i] <= '9'))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-t_bool	list_checkduplicate(t_list_stack *list)
-{
-	int		temp;
-	int		k;
-	t_stack	*stack;
-	t_stack	*iterate;
-
-	k = 0;
-	stack = list->head;
-	iterate = list->head;
-	while (iterate != NULL)
-	{
-		temp = iterate->num;
-		while (stack != NULL)
-		{
-			if (stack->num == temp)
-				k++;
-			if (k == 2)
-				return (false);
-			stack = stack->next;
-		}
-		iterate = iterate->next;
-		stack = list->head;
-		k = 0;
-	}
-	return (true);
 }
 
 int	main(int ac, char **arg)
@@ -126,9 +77,11 @@ int	main(int ac, char **arg)
 		return (0);
 	}
 //	print_list(list, true, true);
-	index_list = list_sort_ascending(list);
-	set_index(index_list);
-	list_apply_index(list, index_list);
+	list_indexing(list);
+	// index_list = list_sort_ascending(list);
+	// set_index(index_list);
+	// list_apply_index(list, index_list);
+	
 	// if (rb_or_rrb(list, 2) == true)
 	// 	printf("ra");
 	// else

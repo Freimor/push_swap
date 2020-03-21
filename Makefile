@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+         #
+#    By: rick <rick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/16 19:21:42 by sskinner         ###   ########.fr        #
+#    Updated: 2020/03/21 16:47:39 by rick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,21 @@
 NAME = push_swap
 ID = $(shell id -un)
 # src / obj files
-SRC =	push_swap.c \
-		command_actions.c \
+SRC =	command_actions.c \
+		command_additionals.c \
+		input_checker.c \
 		list_actions.c \
+		list_additionals.c \
+		list_indexing.c \
 		operation_list_a.c \
 		operation_list_b.c \
 		operation_list_ab.c \
-		solve_actions.c \
 		print_additionals.c \
+		push_swap.c \
+		solve_additionals.c \
+		solve_algoritm_1.c \
+		solve_algoritm_2.c \
 		solve_1.c \
-		algos.c \
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

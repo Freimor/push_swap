@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solve_actions.c                                    :+:      :+:    :+:   */
+/*   list_indexing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 17:50:38 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/13 14:40:32 by sskinner         ###   ########.fr       */
+/*   Created: 2020/03/21 15:43:27 by rick              #+#    #+#             */
+/*   Updated: 2020/03/21 15:50:49 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void			set_index(t_list_stack *sortlist)
+static void			set_index(t_list_stack *sortlist)
 {
 	t_stack	*stack;
 	int		i;
@@ -27,7 +27,7 @@ void			set_index(t_list_stack *sortlist)
 	}
 }
 
-t_list_stack	*list_sort_ascending(t_list_stack *list)
+static t_list_stack	*list_sort_ascending(t_list_stack *list)
 {
 	t_list_stack	*new_list;
 	t_stack			*new_stack;
@@ -58,7 +58,7 @@ t_list_stack	*list_sort_ascending(t_list_stack *list)
 	return(new_list);
 }
 
-t_stack	*list_apply_index(t_list_stack *dst, t_list_stack *src)
+static t_stack		*list_apply_index(t_list_stack *dst, t_list_stack *src)
 {
 	t_stack	*src_stack;
 	t_stack	*dst_stack;
@@ -78,4 +78,14 @@ t_stack	*list_apply_index(t_list_stack *dst, t_list_stack *src)
 	while (dst_stack->index != 0)
 		dst_stack = dst_stack->next;
 	return(dst_stack);
+}
+
+void				list_indexing(t_list_stack *list)
+{
+	t_list_stack	*index_list;
+
+	index_list = list_sort_ascending(list);
+	set_index(index_list);
+	list_apply_index(list, index_list);
+	list_deleteall(index_list);
 }

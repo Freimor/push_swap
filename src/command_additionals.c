@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algos.c                                            :+:      :+:    :+:   */
+/*   command_additionals.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/03 15:06:20 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/16 19:07:15 by sskinner         ###   ########.fr       */
+/*   Created: 2020/03/21 14:53:31 by rick              #+#    #+#             */
+/*   Updated: 2020/03/21 14:53:55 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-t_bool	rb_or_rrb(t_list_stack *b, int index)
+void	clean_commands(t_list_stack *b)
 {
 	t_stack	*stack;
-	int	a;
-	int	c;
 
-	a = 0;
-	c = 0;
-	stack = b->head;
-	while (stack != NULL)
+	if (b->head != NULL)
 	{
-		a++;
-		if (stack->index == index)
-			c = a;
-		stack = stack->next;
+		stack = b->head;
+		while (stack != NULL)
+		{
+			free(stack->comand_list);
+			stack->comand_list = NULL;
+			stack = stack->next;
+		}
 	}
-	return (a - c >= c ? true : false);
 }
