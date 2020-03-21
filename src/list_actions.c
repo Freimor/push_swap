@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_actions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/11 17:12:01 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/21 11:21:13 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ void	list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete)
 	stack = list->head;
 	if (list->head == cut_node)
 	{
-		if(list->head->next == NULL)
+		if (list->head->next == NULL)
 			list->head = NULL;
+			//free(list->head);
 		else
 			list->head = stack->next;
 	}

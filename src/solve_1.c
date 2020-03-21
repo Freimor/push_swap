@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/16 19:32:50 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/21 11:54:48 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,13 +288,15 @@ int		find_closest_index(t_list_stack *a, int index)				//not debag
 	return (-1);
 }
 
-void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
+t_bool	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 {
 	t_stack			*stack_b;
 	t_bool			flag;
+	t_bool			ret;
 	t_list_stack	*copy_list;
 	int				closest_index;
 	
+	ret = false;
 	flag = false;
 	copy_list = list_copylist(a);
 	stack_b = b->head;
@@ -312,18 +314,21 @@ void	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	}
 	if (closest_index < index)
 	{
-		add_command(stack_b->comand_list, "ra");			///??
-		add_command(stack_b->comand_list, "pa");
-		add_command(stack_b->comand_list, "rra");
+		command_add(stack_b->comand_list, "ra");			///??
+		command_add(stack_b->comand_list, "pa");
+		command_add(stack_b->comand_list, "rra");
+		ret = true;
 	}
 	else
-		add_command(stack_b->comand_list, "pa");
+		command_add(stack_b->comand_list, "pa");
 	free(copy_list);
+	return (ret);
 }
 
 void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 {
 	t_stack			*stack;
+	t_bool			flag;
 
 	stack = b->head;
 	clean_commands(b);
@@ -336,7 +341,10 @@ void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 			stack->comand_list->head = NULL;
 		}
 		stage_1(b, stack->index);
-		stage_2(a, b, stack->index);
+		flag = stage_2(a, b, stack->index);
+
+		//double_command_update(stack, flag);				/// !! ./push_swap 0 1 -4 31 -42 -3 2 41 33 -33 1313 -34 | -33 не на своем месте при double_commands | причем иногда правильно считает
+	
 		printf("A:\n");
 		print_list(a, true);
 		printf("B:\n");
@@ -432,6 +440,7 @@ void	exec_command_list(int index, t_list_command *command, t_list_stack *a, t_li
 	while (stack_b->index != index)
 		stack_b = stack_b->next;
 	commands = stack_b->comand_list->head;
+    printf("выбранная голова %d : %s\n", stack_b->index, commands->name);
 	while (commands != NULL)
 	{
 		if (ft_strequ("sa", commands->name) == 1)
@@ -443,13 +452,13 @@ void	exec_command_list(int index, t_list_command *command, t_list_stack *a, t_li
 		else if (ft_strequ("rra", commands->name) == 1)
 			rra(a, command);
 		else if (ft_strequ("sb", commands->name) == 1)
-			sb(a, command);
+			sb(b, command);
 		else if (ft_strequ("pb", commands->name) == 1)
 			pb(a, b, command);
 		else if (ft_strequ("rb", commands->name) == 1)
-			rb(a, command);
+			rb(b, command);
 		else if (ft_strequ("rrb", commands->name) == 1)
-			rrb(a, command);
+			rrb(b, command);
 		else if (ft_strequ("ss", commands->name) == 1)
 			ss(a, b, command);
 		else if (ft_strequ("rr", commands->name) == 1)
@@ -458,46 +467,6 @@ void	exec_command_list(int index, t_list_command *command, t_list_stack *a, t_li
 			rrr(a, b, command);
 		commands = commands->next;
 	}
-}
-
-/*void	double_command_replace(t_stack *stack, int array[])
-{
-	t_command		*command;
-	int				i;
-
-	i = 0;
-	command = stack->comand_list->head;
-	while (command != NULL)
-	{
-		i = ft_abs(array[0] - array[2]);
-		
-	}
-}*/
-
-void	double_command_update(t_stack *stack)
-{
-	t_command		*command;
-	int				array[4];
-
-	array[0] = 0;
-	array[1] = 0;
-	array[2] = 0;
-	array[3] = 0;
-	
-	command = stack->comand_list->head;
-	while (command != NULL)
-	{
-		if (ft_strequ(command->name, "ra") == 1)
-			array[0]++;
-		else if (ft_strequ(command->name, "rra") == 1)
-			array[1]++;
-		else if (ft_strequ(command->name, "rb") == 1)
-			array[2]++;
-		else if (ft_strequ(command->name, "rrb") == 1)
-			array[3]++;
-		command = command->next;
-	}
-	//double_command_replace(stack, array);
 }
 
 /*void	exec_command(char	*str, t_list_command *command, t_list_stack *a, t_list_stack *b)
@@ -529,38 +498,31 @@ void	double_command_update(t_stack *stack)
 void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	t_stack		*stack_b;
-	t_stack		*save;
+	int 		save;
 	t_command	*comm;
 	int		min;
 	
 	stack_b = b->head;
 	min = stack_b->comand_list->size;
-	save = stack_b;
+	save = stack_b->index;
 	
 	while (stack_b->next != NULL)
 	{
 		if (stack_b->next->comand_list->size < min)
 		{
-			save = stack_b->next;
+			save = stack_b->next->index;
 			min = stack_b->next->comand_list->size;
 		}
 		stack_b = stack_b->next;
 	}
-	printf("%d : %d <------\n", save->num, save->index);
+	printf("min index %d <------\n", save);
 	
-	while (b->head != save)				//kostil
-	{
-		rb(b, NULL);
-	}
+	/*stack_b = b->head;
+	while (stack_b->index != save)
+		stack_b = stack_b->next;
+	double_command_update(stack_b);*/
 	
-	//double_command_update(save);
-	/*comm = save->comand_list->head;
-	while (comm != NULL)
-	{
-		exec_command(comm->name, command, a, b);
-		comm = comm->next;
-	}*/
-	exec_command_list(save->index, command, a ,b);			//!!!!!!!!!!!!!!!!!!!!!!!!
+	exec_command_list(save, command, a ,b);
 }
 
 void	zero_to_head(t_list_stack *a, t_list_command *command)
@@ -595,6 +557,7 @@ void	solve_1(t_list_stack *a)
 	{
 		update_stack_comands(a, b);
 		push_minb2a(a, b, command);
+        print_commands(command);
 	//	aligned(a, command, true);
 	}
 	zero_to_head(a, command);

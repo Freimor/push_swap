@@ -1,20 +1,23 @@
 {
 	// Use IntelliSense to learn about possible attributes.
 	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    
+    //"program": "/Users/sskinner/gitex/push_swap_git/push_swap",
+    //"program": "/home/rick/Code/push_swap/push_swap",
 	"version": "0.2.0",
 	"configurations": [
 		{
 			"name": "(gdb) Запустить",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/Users/sskinner/gitex/push_swap_git/push_swap",
-			"args": ["3", "0", "1", "-1", "2", "-3", "-2", "12", "-4"],
+			"program": "/home/rick/Code/push_swap/push_swap",
+			"args": ["0", "1", "-4", "31", "-42", "-3", "2", "41", "-33", "1313", "-34"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "lldb",
+			"MIMode": "gdb",
 			"setupCommands": [
 				{
 					"description": "Включить автоматическое форматирование для gdb",

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operation_list_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/13 14:56:26 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/21 09:59:13 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sb(t_list_stack *b, t_list_command *list_command)
 		list_add2head(b, temp, true);
 		free(temp);
 		if (list_command != NULL)
-			add_command(list_command,"sb");
+			command_add(list_command,"sb");
 	}
 }
 
@@ -57,7 +57,7 @@ void	pb(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 			list_add2head(b, temp, true);
 		free(temp);
 		if (list_command != NULL)
-			add_command(list_command,"pb");
+			command_add(list_command,"pb");
 	}
 }
 
@@ -73,7 +73,7 @@ void	rb(t_list_stack *b, t_list_command *list_command)
 		list_add2tail(b, stack, true);
 		list_cut(b, b->head, true);
 		if (list_command != NULL)
-			add_command(list_command,"rb");
+			command_add(list_command,"rb");
 	}
 }
 
@@ -93,6 +93,6 @@ void	rrb(t_list_stack *b, t_list_command *list_command)
 		list_add2head(b, temp->next, true);
 		list_cut(b, temp->next, true);
 		if (list_command != NULL)
-			add_command(list_command,"rrb");
+			command_add(list_command,"rrb");
 	}
 }

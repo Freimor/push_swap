@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/16 19:07:12 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/21 11:46:34 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command, t_
 void			solve_1(t_list_stack *a);
 
 //command actions
-void			add_command(t_list_command *list_commands, char *command);
+void			command_add(t_list_command *list_commands, char *command);
+void			command_delete(t_list_command *list_commands, char *command);
+void			command_replace(t_list_command *list_commands, char *remove, char *need);
+void			double_command_update(t_stack *stack, t_bool flag);
 t_bool			sa_needed(t_list_stack *list);
 
 

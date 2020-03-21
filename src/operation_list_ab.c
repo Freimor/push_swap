@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operation_list_ab.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/13 14:42:24 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/03/21 09:58:54 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ss(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 	sa(a, NULL);
 	sb(b, NULL);
 	if (list_command != NULL)
-			add_command(list_command,"ss");
+			command_add(list_command,"ss");
 }
 
 void	rr(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
@@ -27,7 +27,7 @@ void	rr(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 	ra(a, NULL);
 	rb(b, NULL);
 	if (list_command != NULL)
-			add_command(list_command,"rr");
+			command_add(list_command,"rr");
 }
 
 void	rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
@@ -36,5 +36,5 @@ void	rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 	rra(a, NULL);
 	rrb(b, NULL);
 	if (list_command != NULL)
-			add_command(list_command,"rrr");
+			command_add(list_command,"rrr");
 }
