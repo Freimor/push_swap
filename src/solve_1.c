@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 13:55:53 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 15:02:03 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:24:04 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void		solve_after_presort(t_list_stack *a, t_list_command *command)			//rabotaet
 	}
 	else if (list_len(a) == 3)
 	{
-		while (check_align(a) == false)
+		while (check_align(a, false) == false)
 		{
 			if ((a->head->index == a->head->next->index + 2
 			&& a->head->index == a->head->next->next->index + 1) ||
@@ -220,44 +220,6 @@ void		presort_a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 		src = src->next;
 	}
 }*/
-
-void	exec_command_list(int index, t_list_command *command, t_list_stack *a, t_list_stack *b)
-{
-	t_stack		*stack_b;
-	t_command	*commands;
-
-	stack_b = b->head;
-	while (stack_b->index != index)
-		stack_b = stack_b->next;
-	commands = stack_b->comand_list->head;
-    printf("выбранная голова %d : %s\n", stack_b->index, commands->name);
-	while (commands != NULL)
-	{
-		if (ft_strequ("sa", commands->name) == 1)
-			sa(a, command);
-		else if (ft_strequ("pa", commands->name) == 1)
-			pa(a, b, command);
-		else if (ft_strequ("ra", commands->name) == 1)
-			ra(a, command);
-		else if (ft_strequ("rra", commands->name) == 1)
-			rra(a, command);
-		else if (ft_strequ("sb", commands->name) == 1)
-			sb(b, command);
-		else if (ft_strequ("pb", commands->name) == 1)
-			pb(a, b, command);
-		else if (ft_strequ("rb", commands->name) == 1)
-			rb(b, command);
-		else if (ft_strequ("rrb", commands->name) == 1)
-			rrb(b, command);
-		else if (ft_strequ("ss", commands->name) == 1)
-			ss(a, b, command);
-		else if (ft_strequ("rr", commands->name) == 1)
-			rr(a, b, command);
-		else if (ft_strequ("rrr", commands->name) == 1)
-			rrr(a, b, command);
-		commands = commands->next;
-	}
-}
 
 /*void	exec_command(char	*str, t_list_command *command, t_list_stack *a, t_list_stack *b)
 {

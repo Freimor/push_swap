@@ -6,7 +6,7 @@
 #    By: rick <rick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/21 16:47:39 by rick             ###   ########.fr        #
+#    Updated: 2020/03/27 16:23:40 by rick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,10 @@ SRC =	command_actions.c \
 		operation_list_ab.c \
 		print_additionals.c \
 		push_swap.c \
-		solve_additionals.c \
+		solve_additionals_1.c \
+		solve_additionals_2.c \
 		solve_algoritm_1.c \
 		solve_algoritm_2.c \
-		solve_1.c \
 
 OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
 

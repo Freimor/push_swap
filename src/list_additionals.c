@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:50:07 by rick              #+#    #+#             */
-/*   Updated: 2020/03/21 14:52:09 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/23 21:42:34 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_stack			*stack_copystack(t_stack *stack, t_bool save_next)
 	new_stack = (t_stack *)malloc(sizeof(t_stack));
 	new_stack->num = stack->num;
 	new_stack->index = stack->index;
+	new_stack->flag = stack->flag;
 	new_stack->comand_list = NULL;
 	if (save_next == true)
 		new_stack->next = stack->next;

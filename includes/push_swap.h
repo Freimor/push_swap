@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/21 17:02:53 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:25:41 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef	struct	s_stack
 {
 	int						num;
 	int						index;
+	t_bool					flag;
 	struct s_list_command	*comand_list;
 	struct s_stack			*next;
 }							t_stack;
@@ -137,25 +138,31 @@ void			rr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
 /*| operation_list_ab.c |*/
 /*rra and rrb at the same time.*/
 void			rrr(t_list_stack *a, t_list_stack *b, t_list_command *list_command);
-/*| print_additionals.c |*/
+/*| print_additionals_1.c |*/
 /*Print to consol list of stack (with_index == true -> print with index).*/
 void			print_list(t_list_stack *list, t_bool with_index);
-/*| print_additionals.c |*/
+/*| print_additionals_1.c |*/
 /*Print list of commands.*/
 void			print_commands(t_list_command *command);
-/*| solve_additionals.c |*/
+/*| solve_additionals_1.c |*/
 /*Choosing a more effective command.*/
 t_bool			rb_or_rrb(t_list_stack *b, int index);
-/*| solve_additionals.c |*/
+/*| solve_additionals_1.c |*/
 /*Checking for the correct order of elements.*/
 /*(rigor == true -> stack->index + 1 = stack->next->index).*/
 t_bool			check_align(t_list_stack *list, t_bool rigor);
-/*| solve_additionals.c |*/
+/*| solve_additionals_1.c |*/
 /*Search for the closest index.*/
 int				find_closest_index(t_list_stack *a, int index);
-/*| solve_additionals.c |*/
+/*| solve_additionals_1.c |*/
 /*ra or rra while index = 0 not in head of list*/
 void			zero_to_head(t_list_stack *a, t_list_command *command);
+/*| solve_additionals_2.c |*/
+/*Execute commands sublist*/
+void			exec_command_list(int index, t_list_command *command, t_list_stack *a, t_list_stack *b);
+/*| solve_algoritm_1.c |*/
+/*| Detect sorted elements and push not sorted elements to stack b |*/
+void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command);
 /*| solve_algoritm_2.c |*/
 /*Solver*/
 void			solve(t_list_stack *a);

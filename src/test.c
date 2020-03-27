@@ -6,11 +6,44 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:17:02 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 21:32:00 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/23 21:58:51 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+t_bool	check_mark(t_list_stack *list)
+{
+	t_stack	*stack;
+
+	stack = list->head;
+	while (stack != NULL)
+	{
+		if (stack->flag == false)
+			return (false);
+		stack = stack->next;
+	}
+	return (true);
+}
+
+t_bool	rb_or_rrb(t_list_stack *b, int index)
+{
+	t_stack	*stack;
+	int	a;
+	int	c;
+
+	a = 0;
+	c = 0;
+	stack = b->head;
+	while (stack != NULL)
+	{
+		a++;
+		if (stack->index == index)
+			c = a;
+		stack = stack->next;
+	}
+	return (a - c >= c ? true : false);
+}
 
 int		ft_strequ(char const *s1, char const *s2)
 {
@@ -107,8 +140,65 @@ t_bool	sa_needed(t_list_stack *list)
 			ra(a, command);
 	}
 }*/
+void	attribute_apply(t_list_stack *list, t_list_stack *temp)
+{
+	t_stack *stack;
+	t_stack *temp_stack;
 
-int		sortcombo(t_list_stack *list, int index)
+	stack = list->head;
+	while (stack != NULL)
+	{
+		temp_stack = temp->head;
+		while (temp_stack != NULL)
+		{
+			if (temp_stack->index == stack->index)
+				stack->flag = temp_stack->flag;
+			temp_stack = temp_stack->next;
+		}
+		stack = stack->next;
+	}
+}
+
+int		sort_combo(t_list_stack *list, int index, t_bool mark)
+{
+	t_list_stack *temp_list;
+	int		count;
+	int		temp;
+
+	temp_list = list_copylist(list);
+	count = 1;
+	while (temp_list->head->index != index)
+		ra(temp_list, NULL);
+	temp = temp_list->head->index;
+	temp_list->head->flag = true;
+	ra(temp_list, NULL);
+	while (temp_list->head->index != index)
+	{
+		if (temp_list->head->next->index == temp + 1)
+		{
+			sa(temp_list, NULL);
+			temp_list->head->flag = true;
+			ra(temp_list, NULL);
+			count++;
+			temp++;
+		}
+		else if (temp_list->head->index == temp + 1)
+		{
+			temp_list->head->flag = true;
+			ra(temp_list, NULL);
+			count++;
+			temp++;
+		}
+		else
+			ra(temp_list, NULL);
+	}
+	if (mark == true)
+		attribute_apply(list, temp_list);
+	list_deleteall(temp_list);
+	return (count);
+}
+
+/*int		sort_combo(t_list_stack *list, int index, t_bool mark)
 {
 	t_stack *stack;
 	t_stack	*iter;
@@ -117,19 +207,31 @@ int		sortcombo(t_list_stack *list, int index)
 
 	count = 1;
 	stack = list->head;
-	iter = stack->next;
+	while (stack->index != index)
+		stack = stack->next;
+	if (stack->next == NULL)
+		iter = list->head;
+	else
+		iter = stack->next;
 	temp = stack->index;
+	if (mark == true)
+		stack->flag = true;
 	while (iter != stack)
-	{
+	{	
 		if (iter->index == temp + 1)
 		{
+			if (mark == true)
+				iter->flag = true;
 			count++;
 			temp++;
 		}
-		iter = iter->next;
+		if (iter->next == NULL)
+			iter = list->head;
+		else
+			iter = iter->next;
 	}
 	return (count);
-}
+}*/
 
 int		check_where_start(t_list_stack *list)
 {
@@ -141,9 +243,9 @@ int		check_where_start(t_list_stack *list)
 	max_sort_elem = 0;
 	while (stack != NULL)
 	{
-		if (sortcombo(list, stack->index) > max_sort_elem)
+		if (sort_combo(list, stack->index, false) > max_sort_elem)
 		{
-			max_sort_elem = sortcombo(list, stack->index);
+			max_sort_elem = sort_combo(list, stack->index, false);
 			index = stack->index;
 		}
 		stack = stack->next;
@@ -165,6 +267,7 @@ void	solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
 	t_bool	flag;
 	
 	start_index = check_where_start(a);
+	sort_combo(a, start_index, true);
 	flag = rb_or_rrb(a, start_index);
 	while (a->head->index != start_index)
 	{
@@ -175,10 +278,10 @@ void	solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
 	}
 	while (check_align(a, true) == false)
 	{
-		if (a->head->index + 1 == a->head->next->index)
-			ra(a, command);
-		else if (a->head->next->index + 1 == a->head->index)
+		if (a->head->next->index + 1 == a->head->index && a->head->next->flag == true)
 			sa(a, command);
+		else if (a->head->flag == true)
+			ra(a, command);
 		else
 			pb(a, b, command);
 	}
@@ -194,26 +297,51 @@ int	main(void)
 	t_stack			*two;
 	t_stack			*three;
 	t_stack			*four;
+	t_stack			*five;
+	t_stack			*six;
+	t_stack			*seven;
 	t_list_command	*commands;
 
+	seven = (t_stack *)malloc(sizeof(t_stack));
+	seven->num = 6;
+	seven->index = 5;
+	seven->flag = false;
+	seven->next = NULL;
+	
+	six = (t_stack *)malloc(sizeof(t_stack));
+	six->num = -11;
+	six->index = 0;
+	six->flag = false;
+	six->next = seven;
+	
+	five = (t_stack *)malloc(sizeof(t_stack));
+	five->num = -7;
+	five->index = 1;
+	five->flag = false;
+	five->next = six;
+	
 	four = (t_stack *)malloc(sizeof(t_stack));
-	four->num = -1;
-	four->index = 1;
-	four->next = NULL;
+	four->num = 11;
+	four->index = 6;
+	four->flag = false;
+	four->next = five;
 	
 	three = (t_stack *)malloc(sizeof(t_stack));
-	three->num = 0;
-	three->index = 2;
+	three->num = 5;
+	three->index = 4;
+	three->flag = false;
 	three->next = four;
 
 	two = (t_stack *)malloc(sizeof(t_stack));
-	two->num = 4;
-	two->index = 3;
+	two->num = -3;
+	two->index = 2;
+	two->flag = false;
 	two->next = three;
 
 	one = (t_stack *)malloc(sizeof(t_stack));
-	one->num = -33;
-	one->index = 0;
+	one->num = 0;
+	one->index = 3;
+	one->flag = false;
 	one->next = two;
 
 	list = (t_list_stack *)malloc(sizeof(t_list_stack));

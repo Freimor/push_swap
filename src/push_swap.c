@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/21 16:04:07 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:18:51 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int	main(int ac, char **arg)
 	// 	printf("ra");
 	// else
 	// 	printf("rra");
-	solve_1(list);
+	solve(list);
 	return (0);
 }

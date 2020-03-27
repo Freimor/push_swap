@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 14:51:19 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/23 21:44:07 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_list_stack	*list_copylist(t_list_stack *old)
 	new_list->size = old->size;
 	new_stack->num = stack->num;
 	new_stack->index = stack->index;
+	new_stack->flag = stack->flag;
 	new_stack->comand_list = NULL;
 	while (stack->next != NULL)
 	{
@@ -100,6 +101,8 @@ t_list_stack	*list_copylist(t_list_stack *old)
 		stack = stack->next;
 		new_stack->num = stack->num;
 		new_stack->index = stack->index;
+		new_stack->flag = stack->flag;
+		new_stack->comand_list = NULL;
 	}
 	new_stack->next = NULL;
 	return (new_list);

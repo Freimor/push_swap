@@ -6,84 +6,112 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 15:02:53 by rick              #+#    #+#             */
-/*   Updated: 2020/03/21 17:13:07 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:28:20 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-t_bool	sa_needed(t_list_stack *list)
+static void		attribute_apply(t_list_stack *list, t_list_stack *temp)
 {
-	t_stack	*stack;
-	int		temp;
-	int		a;
-	int		b;
+	t_stack *stack;
+	t_stack *temp_stack;
 
-	a = 1;
-	b = 1;
 	stack = list->head;
-	temp = stack->index;
-	while (stack->next != NULL)
-	{
-		if (stack->next->index == temp + 1)
-		{
-			temp++;
-			a++;
-		}
-		stack = stack->next;
-	}
-	sa(list, NULL);
-	stack = list->head;
-	temp = stack->index;
 	while (stack != NULL)
 	{
-		if (stack->next->index == temp + 1)
+		temp_stack = temp->head;
+		while (temp_stack != NULL)
 		{
-			temp++;
-			b++;
+			if (temp_stack->index == stack->index)
+				stack->flag = temp_stack->flag;
+			temp_stack = temp_stack->next;
 		}
 		stack = stack->next;
+	}
+}
+
+static int		sort_combo(t_list_stack *list, int index, t_bool mark)
+{
+	t_list_stack *temp_list;
+	int		count;
+	int		temp;
+
+	temp_list = list_copylist(list);
+	count = 1;
+	while (temp_list->head->index != index)
+		ra(temp_list, NULL);
+	temp = temp_list->head->index;
+	temp_list->head->flag = true;
+	ra(temp_list, NULL);
+	while (temp_list->head->index != index)
+	{
+		if (temp_list->head->next->index == temp + 1)
+		{
+			sa(temp_list, NULL);
+			temp_list->head->flag = true;
+			ra(temp_list, NULL);
+			count++;
+			temp++;
+		}
+		else if (temp_list->head->index == temp + 1)
+		{
+			temp_list->head->flag = true;
+			ra(temp_list, NULL);
+			count++;
+			temp++;
+		}
+		else
+			ra(temp_list, NULL);
+	}
+	if (mark == true)
+		attribute_apply(list, temp_list);
+	list_deleteall(temp_list);
+	return (count);
+}
+
+static int		check_where_start(t_list_stack *list)
+{
+	t_stack	*stack;
+	int		index;
+	int		max_sort_elem;
+
+	stack = list->head;
+	max_sort_elem = 0;
+	while (stack != NULL)
+	{
+		if (sort_combo(list, stack->index, false) > max_sort_elem)
+		{
+			max_sort_elem = sort_combo(list, stack->index, false);
+			index = stack->index;
+		}
 		stack = stack->next;
 	}
-	sa(list, NULL);
-	if (b > a)
-		return (true);
-	return (false);
+	return (index);
 }
 
-void	solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
+void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
-	/*WHILE stack A has elements with "false" value in "Keep in Stack A" field
-      IF sa (swap a) is needed
-            perform sa (swap a) command
-            update markup
-      ELSE IF head element of stack A has "false" value in "Keep in Stack A" field
-            perform pb (push b) command
-      ELSE
-            perform ra (rotate a) command*/
-	t_stack	*stack_a;
-
-	stack_a = a->head;
+	int		start_index;
+	t_bool	flag;
+	
+	start_index = check_where_start(a);
+	sort_combo(a, start_index, true);
+	flag = rb_or_rrb(a, start_index);
+	while (a->head->index != start_index)
+	{
+		if (flag == true)
+			ra(a, command);
+		else
+			rra(a, command);
+	}
 	while (check_align(a, true) == false)
 	{
-		if (sa_needed == true)
-			sa(a, command, true);
-		else if (a->head->keep_in == false)
-			pb(a, b, command);
-		else
+		if (a->head->next->index + 1 == a->head->index && a->head->next->flag == true)
+			sa(a, command);
+		else if (a->head->flag == true)
 			ra(a, command);
-	}
-}
-
-void	solve_a2b(t_list_stack *a, t_list_stack *b, t_list_command *command)
-{
-	t_bool	enough;
-	t_stack	*stack;
-
-	enough = false;
-	stack = a->head;
-	while ()
-	{
-		
+		else
+			pb(a, b, command);
 	}
 }

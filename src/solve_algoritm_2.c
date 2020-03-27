@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:40:57 by rick              #+#    #+#             */
-/*   Updated: 2020/03/21 16:56:19 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:19:03 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ void	solve(t_list_stack *a)
 	print_list(a, true);
 	ft_putstr("++++++++++\n");
 	//print_commands(command);
-	presort_a(a, b, command);
+	//presort_a(a, b, command);
+	solve_first(a, b, command);
 	while (b->head != NULL)
 	{
 		update_stack_comands(a, b);

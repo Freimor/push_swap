@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solve_additionals.c                                :+:      :+:    :+:   */
+/*   solve_additionals_1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/03 15:06:20 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 17:04:41 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 16:32:14 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_bool	check_align(t_list_stack *list, t_bool rigor)
 	{
 		while(stack->next != NULL)
 		{
-			if (stack->index != stack->next->index + 1)
+			if (stack->index + 1 != stack->next->index)
 				return (false);
 			stack = stack->next;
 		}
