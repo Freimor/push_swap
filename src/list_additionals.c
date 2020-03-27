@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:50:07 by rick              #+#    #+#             */
-/*   Updated: 2020/03/23 21:42:34 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 22:28:47 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_stack			*stack_copystack(t_stack *stack, t_bool save_next)
 		new_stack->next = stack->next;
 	else
 		new_stack->next = NULL;
-	return(new_stack);
+	return (new_stack);
 }
 
 int		list_len(t_list_stack *list)

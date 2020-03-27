@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:40:57 by rick              #+#    #+#             */
-/*   Updated: 2020/03/27 16:19:03 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 22:41:33 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 		flag = stage_2(a, b, stack->index);
 
 		//double_command_update(stack, flag);				/// !! ./push_swap 0 1 -4 31 -42 -3 2 41 33 -33 1313 -34 | -33 не на своем месте при double_commands | причем иногда правильно считает
-	
+		//видимо эта херня не работает когда появляется фантомный баг
 		printf("A:\n");
 		print_list(a, true);
 		printf("B:\n");
@@ -160,6 +160,7 @@ void	solve(t_list_stack *a)
 	ft_putstr("----------\n");
 	print_list(b, true);
 	printf("%d\n", command->size);
+	list_deleteall(b);
 	//print_commands(command);
 }
 

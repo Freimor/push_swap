@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/27 16:18:51 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/27 22:35:40 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_list_stack	*form_first_list(t_list_stack *list, int num)
 		stack->num = num;
 		stack->next = NULL;
 		stack->index = -1;
+		stack->comand_list = NULL;
 		list->head = stack;
 	}
 	else
@@ -38,8 +39,9 @@ static t_list_stack	*form_first_list(t_list_stack *list, int num)
 		stack->next->num = num;
 		stack->next->next = NULL;
 		stack->next->index = -1;
+		stack->comand_list = NULL;
 	}
-	return(list);
+	return (list);
 }
 
 int	main(int ac, char **arg)
@@ -47,7 +49,7 @@ int	main(int ac, char **arg)
 	t_list_stack	*list;
 	t_list_stack	*new_list;
 	t_list_stack	*index_list;
-	int	i;
+	int				i;
 
 	i = 1;
 	list = NULL;
@@ -61,7 +63,7 @@ int	main(int ac, char **arg)
 		if (input_check_number(arg[i]) == false)
 		{
 			ft_putstr("Error on args\n");
-			return(0);
+			return (0);
 		}
 		i++;
 	}
@@ -78,14 +80,7 @@ int	main(int ac, char **arg)
 	}
 //	print_list(list, true, true);
 	list_indexing(list);
-	// index_list = list_sort_ascending(list);
-	// set_index(index_list);
-	// list_apply_index(list, index_list);
-	
-	// if (rb_or_rrb(list, 2) == true)
-	// 	printf("ra");
-	// else
-	// 	printf("rra");
 	solve(list);
+	list_deleteall(list);
 	return (0);
 }
