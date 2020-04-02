@@ -6,81 +6,35 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:17:54 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/27 22:35:40 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/02 15:45:44 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static t_list_stack	*form_first_list(t_list_stack *list, int num)
-{
-	t_stack *stack;
-
-	if (list == NULL)
-	{
-		list = (t_list_stack *)malloc(sizeof(t_list_stack));
-		list->head = NULL;
-	}
-	if (list->head == NULL)
-	{
-		stack = (t_stack *)malloc(sizeof(t_stack));
-		stack->num = num;
-		stack->next = NULL;
-		stack->index = -1;
-		stack->comand_list = NULL;
-		list->head = stack;
-	}
-	else
-	{
-		stack = list->head;
-		while (stack->next != NULL)
-			stack = stack->next;
-		stack->next = (t_stack *)malloc(sizeof(t_stack));
-		stack->next->num = num;
-		stack->next->next = NULL;
-		stack->next->index = -1;
-		stack->comand_list = NULL;
-	}
-	return (list);
-}
-
 int	main(int ac, char **arg)
 {
 	t_list_stack	*list;
-	t_list_stack	*new_list;
-	t_list_stack	*index_list;
+	t_list_command	*command;
 	int				i;
 
 	i = 1;
-	list = NULL;
-	if (ac < 2)
+	list = (t_list_stack *)malloc(sizeof(t_list_stack));
+	command = (t_list_command *)malloc(sizeof(t_list_command));
+	list->head = NULL;
+	command->head = NULL;
+	command->size = 0;
+	if (input_checker(ac, arg) == false)
+		return (-1);
+	if (check_listfordup(list, ac, arg) == false)
 	{
-		ft_putstr("Error input\n");
-		return (0);
+		list_deleteall(list);
+		return (-1);
 	}
-	while (i < ac)
-	{
-		if (input_check_number(arg[i]) == false)
-		{
-			ft_putstr("Error on args\n");
-			return (0);
-		}
-		i++;
-	}
-	i = 1;
-	while (i < ac)
-	{
-		list = form_first_list(list, ft_atoi(arg[i]));
-		i++;
-	}
-	if (list_checkduplicate(list) == false)
-	{
-		ft_putstr("Error dup\n");
-		return (0);
-	}
-//	print_list(list, true, true);
+	list->size = list_len(list);
 	list_indexing(list);
-	solve(list);
+	solve(list, command);
 	list_deleteall(list);
+	command_list_delete(command);
 	return (0);
 }

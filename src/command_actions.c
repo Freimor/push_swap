@@ -6,11 +6,31 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:32:32 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 15:17:40 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/02 19:46:10 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+char	*ft_strdup(const char *str)
+{
+	char	*new;
+	int		i;
+	int		l;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	new = (char *)malloc(sizeof(char) * (i + 1));					//вылет маллока
+	if (new)
+	{
+		l = -1;
+		while (++l < i)
+			new[l] = str[l];
+		new[l] = '\0';
+	}
+	return (new);
+}
 
 void	command_add(t_list_command *list_commands, char *command)
 {
@@ -19,7 +39,11 @@ void	command_add(t_list_command *list_commands, char *command)
 	if (list_commands->head == NULL)
 	{
 		list_commands->head = (t_command *)malloc(sizeof(t_command));
-		list_commands->head->name = command;
+		//ft_strcpy(list_commands->head->name, command);
+		list_commands->head->name = (char *)malloc(sizeof(char) * (ft_strlen(command) + 1));
+		ft_strcpy(list_commands->head->name, command);
+		list_commands->head->name = ft_strdup(command);
+		//list_commands->head->name = command;
 		list_commands->head->next = NULL;
 		list_commands->size++;
 	}
@@ -29,7 +53,10 @@ void	command_add(t_list_command *list_commands, char *command)
 		while (commands->next != NULL)
 			commands = commands->next;
 		commands->next = (t_command *)malloc(sizeof(t_command));
-		commands->next->name = command;
+		//commands->next->name = ft_strdup(command);
+		commands->next->name = (char *)malloc(sizeof(char) * (ft_strlen(command) + 1));
+		ft_strcpy(commands->next->name, command);
+		//commands->next->name = command;
 		commands->next->next = NULL;
 		list_commands->size++;
 	}
@@ -44,11 +71,16 @@ void	command_delete(t_list_command *list_commands, char *command)
 	if (ft_strequ(list_commands->head->name, command) == 1)
 	{
 		if (list_commands->head->next == NULL)
-			free(list_commands);
+		{
+			free(list_commands->head->name);
+			free(list_commands->head);
+			list_commands->head = NULL;
+		}
 		else
 		{
 			temp = list_commands->head;
 			list_commands->head = list_commands->head->next;
+			free(temp->name);
 			free(temp);
 		}
 	}
@@ -58,8 +90,10 @@ void	command_delete(t_list_command *list_commands, char *command)
 			commands = commands->next;
 		temp = commands->next;
 		commands->next = commands->next->next;
+		free(temp->name);
 		free(temp);
 	}
+	list_commands->size--;
 }
 
 static void	command_replace(t_list_command *list_commands, char *remove, char *need)

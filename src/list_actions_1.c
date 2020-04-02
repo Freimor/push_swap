@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_actions.c                                     :+:      :+:    :+:   */
+/*   list_actions_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/27 22:38:06 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/01 21:19:28 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	list_add2head(t_list_stack *list, t_stack *node, t_bool copy)
 	}
 	else
 	{
-		temp = stack_copystack(node, false);
+		temp = stack_copystack(node);
 		stack = list->head;
 		list->head = temp;
 		temp->next = stack;
@@ -46,7 +46,7 @@ void	list_add2tail(t_list_stack *list, t_stack *node, t_bool copy)
 	}
 	else
 	{
-		temp = stack_copystack(node, false);
+		temp = stack_copystack(node);
 		stack = list->head;
 		while (stack->next != NULL)
 			stack = stack->next;
@@ -60,23 +60,24 @@ void	list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete)
 	t_stack	*temp;
 
 	stack = list->head;
-	if (list->head == cut_node)
+	if (stack == cut_node)
 	{
-		if (list->head->next == NULL)
-			list->head = NULL;
-			//free(list->head);
-		else
-			list->head = stack->next;
+		temp = stack;
+		list->head = stack->next;
 	}
 	else
 	{
 		while (stack->next != cut_node)
 			stack = stack->next;
-		temp = stack->next->next;
-		stack->next = temp;
+		temp = stack->next;
+		stack->next = stack->next->next;
 	}
 	if (delete == true)
-		free(cut_node);
+	{
+		if (temp->comand_list != NULL)
+			command_list_delete(temp->comand_list);
+		free(temp);
+	}
 }
 
 t_list_stack	*list_copylist(t_list_stack *old)
@@ -89,24 +90,15 @@ t_list_stack	*list_copylist(t_list_stack *old)
 	new_list = (t_list_stack *)malloc(sizeof(t_list_stack));
 	if (old->head != NULL)
 	{
-		new_stack = (t_stack *)malloc(sizeof(t_stack));
-		new_list->head = new_stack;
+		new_list->head = stack_copystack(stack);
 		new_list->size = old->size;
-		new_stack->num = stack->num;
-		new_stack->index = stack->index;
-		new_stack->flag = stack->flag;
-		new_stack->comand_list = NULL;
+		new_stack = new_list->head;
 		while (stack->next != NULL)
 		{
-			new_stack->next = (t_stack *)malloc(sizeof(t_stack));
+			new_stack->next = stack_copystack(stack->next);
 			new_stack = new_stack->next;
 			stack = stack->next;
-			new_stack->num = stack->num;
-			new_stack->index = stack->index;
-			new_stack->flag = stack->flag;
-			new_stack->comand_list = NULL;
 		}
-		new_stack->next = NULL;
 	}
 	else
 		new_list->head = NULL;
@@ -119,19 +111,13 @@ void			list_deleteall(t_list_stack *list)
 	t_stack	*temp;
 
 	stack = list->head;
-	if (stack != NULL)
+	while (stack != NULL)
 	{
-		while (stack->next != NULL)
-		{
-			temp = stack->next;
-			if (stack->comand_list != NULL)
-				free(stack->comand_list);
-			free(stack);
-			stack = temp;
-		}
-		if (stack->comand_list != NULL)
-				free(stack->comand_list);
-			free(stack);
+		temp = stack;
+		stack = stack->next;
+		if (temp->comand_list != NULL)
+			command_list_delete(temp->comand_list);
+		free(temp);
 	}
 	free(list);
 }

@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/03/27 16:25:41 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/02 12:23:33 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,30 +64,54 @@ void			double_command_update(t_stack *stack, t_bool flag);
 /*| command_additionals.c |*/
 /*Clean local lists of commands*/
 void			clean_commands(t_list_stack *b);
+/*| command_additionals.c |*/
+/*Clean list of commands*/
+void			command_list_delete(t_list_command *command);
+/*| command_additionals.c |*/
+/*Copy sub command list to new copy of stack elem*/
+void			command_locallist(t_stack *stack, t_list_command *command);
+/*| command_additionals.c |*/
+/*Set size of each local command list*/
+//void			command_set_sizes(t_list_stack *b);
+/*| command_additionals.c |*/
+/*Copy list of commands*/
+t_list_command	*command_list_copy(t_list_command *list);
+/*| command_additionals.c |*/
+/*If command in list -> return true, else false*/
+t_bool			find_command(t_list_command *list, char *command);
 /*| input_checker.c |*/
-/*Check raw list for duplicates*/
-t_bool			list_checkduplicate(t_list_stack *list);
+/*Forming first stack and check for duplicates*/
+t_bool			check_listfordup(t_list_stack *list, int ac, char **arg);
 /*| input_checker.c |*/
-/*Check input for numbers */
+/*Check arguments*/
+t_bool			input_checker(int ac, char **arg);
+/*| input_checker.c |*/
+/*Check input for numbers*/
 int				input_check_number(char *array);
-/*| list_actions.c |*/
+/*| list_actions_1.c |*/
 /*Add the stack to the head of the list*/
 void			list_add2head(t_list_stack *list, t_stack *node, t_bool copy);
-/*| list_actions.c |*/
+/*| list_actions_1.c |*/
 /*Add the stack to the end of the list*/
 void			list_add2tail(t_list_stack *list, t_stack *node, t_bool copy);
-/*| list_actions.c |*/
+/*| list_actions_1.c |*/
 /*Cut stack in list (delete == true -> delete this stack (free)*/
 void			list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete);
-/*| list_actions.c |*/
+/*| list_actions_1.c |*/
 /*Copy list*/
 t_list_stack	*list_copylist(t_list_stack *old);
-/*| list_actions.c |*/
+/*| list_actions_1.c |*/
 /*Compleet list deletion*/
 void			list_deleteall(t_list_stack *list);
+/*| list_actions_2.c |*/
+/*Form first stack*/
+void			form_first_list(t_list_stack *list, int num);
+/*| list_actions_2.c |*/
+/*Check raw list for duplicates*/
+t_bool			list_checkduplicate(t_list_stack *list);
 /*| list_additionals.c |*/
 /*Copy stack*/
-t_stack			*stack_copystack(t_stack *stack, t_bool save_next);
+t_stack			*stack_copystack(t_stack *stack);
 /*| list_additionals.c |*/
 /*Length of list*/
 int				list_len(t_list_stack *list);
@@ -159,12 +183,12 @@ int				find_closest_index(t_list_stack *a, int index);
 void			zero_to_head(t_list_stack *a, t_list_command *command);
 /*| solve_additionals_2.c |*/
 /*Execute commands sublist*/
-void			exec_command_list(int index, t_list_command *command, t_list_stack *a, t_list_stack *b);
+void			exec_command_list(t_list_command *local, t_list_command *command, t_list_stack *a, t_list_stack *b);
 /*| solve_algoritm_1.c |*/
 /*| Detect sorted elements and push not sorted elements to stack b |*/
 void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command);
 /*| solve_algoritm_2.c |*/
 /*Solver*/
-void			solve(t_list_stack *a);
+void			solve(t_list_stack *a, t_list_command *command);
 
 #endif // !PUSH_SWAP_H

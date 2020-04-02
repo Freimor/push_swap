@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 15:43:27 by rick              #+#    #+#             */
-/*   Updated: 2020/03/21 15:50:49 by rick             ###   ########.fr       */
+/*   Updated: 2020/03/31 17:23:43 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_list_stack	*list_sort_ascending(t_list_stack *list)
 		{
 			if (new_stack->num > new_stack->next->num)
 			{
-				temp = stack_copystack(new_stack->next, false);
+				temp = stack_copystack(new_stack->next);
 				list_cut(new_list, new_stack->next, true);
 				list_add2head(new_list, temp, true);
 				free(temp);
@@ -58,11 +58,10 @@ static t_list_stack	*list_sort_ascending(t_list_stack *list)
 	return(new_list);
 }
 
-static t_stack		*list_apply_index(t_list_stack *dst, t_list_stack *src)
+static void			list_apply_index(t_list_stack *dst, t_list_stack *src)
 {
 	t_stack	*src_stack;
 	t_stack	*dst_stack;
-	t_stack	*first;
 
 	dst_stack = dst->head;
 	src_stack = src->head;
@@ -74,10 +73,6 @@ static t_stack		*list_apply_index(t_list_stack *dst, t_list_stack *src)
 		dst_stack = dst_stack->next;
 		src_stack = src->head;
 	}
-	dst_stack = dst->head;
-	while (dst_stack->index != 0)
-		dst_stack = dst_stack->next;
-	return(dst_stack);
 }
 
 void				list_indexing(t_list_stack *list)

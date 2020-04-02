@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:40:57 by rick              #+#    #+#             */
-/*   Updated: 2020/03/27 22:41:33 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/02 17:51:22 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	stage_1(t_list_stack *b, int index)			//not debag
 		else
 			rrb(copy_list, stack->comand_list);
 	}
-	free(copy_list);
+	list_deleteall(copy_list);
 }
 
 static t_bool	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
@@ -61,14 +61,15 @@ static t_bool	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 	}
 	if (closest_index < index)
 	{
-		command_add(stack_b->comand_list, "ra");			///??
-		command_add(stack_b->comand_list, "pa");
-		command_add(stack_b->comand_list, "rra");
+		if (find_command(stack_b->comand_list, "rra") == true)
+			command_delete(stack_b->comand_list, "rra");
+		else
+			command_add(stack_b->comand_list, "ra");			///??
+		//command_add(stack_b->comand_list, "rra");
 		ret = true;
 	}
-	else
-		command_add(stack_b->comand_list, "pa");
-	free(copy_list);
+	command_add(stack_b->comand_list, "pa");
+	list_deleteall(copy_list);
 	return (ret);
 }
 
@@ -82,14 +83,9 @@ static void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 	printf("after clear\n");
 	while (stack != NULL)
 	{
-		if (stack->comand_list == NULL)
-		{
-			stack->comand_list = (t_list_command *)malloc(sizeof(t_list_command));
-			stack->comand_list->head = NULL;
-		}
 		stage_1(b, stack->index);
 		flag = stage_2(a, b, stack->index);
-
+		//command_set_sizes(b);
 		//double_command_update(stack, flag);				/// !! ./push_swap 0 1 -4 31 -42 -3 2 41 33 -33 1313 -34 | -33 не на своем месте при double_commands | причем иногда правильно считает
 		//видимо эта херня не работает когда появляется фантомный баг
 		printf("A:\n");
@@ -105,54 +101,56 @@ static void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 static void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
 	t_stack		*stack_b;
-	int 		save;
+	t_stack		*save;
 	t_command	*comm;
 	int		min;
 	
 	stack_b = b->head;
 	min = stack_b->comand_list->size;
-	save = stack_b->index;
+	save = stack_b;
 	
 	while (stack_b->next != NULL)
 	{
 		if (stack_b->next->comand_list->size < min)
 		{
-			save = stack_b->next->index;
+			save = stack_b->next;
 			min = stack_b->next->comand_list->size;
 		}
 		stack_b = stack_b->next;
 	}
-	printf("min index %d <------\n", save);
+	printf("min index %d <------\n", save->index);
 	
 	/*stack_b = b->head;
 	while (stack_b->index != save)
 		stack_b = stack_b->next;
 	double_command_update(stack_b);*/
 	
-	exec_command_list(save, command, a ,b);
+	exec_command_list(save->comand_list, command, a ,b);
 }
 
-void	solve(t_list_stack *a)
+void	solve(t_list_stack *a, t_list_command *command)
 {
 	t_list_stack		*b;
-	t_list_command		*command;
-
+	t_stack				*stack;
+	
 	b = (t_list_stack *)malloc(sizeof(t_list_stack));
-	command = (t_list_command *)malloc(sizeof(t_list_command));
 	b->head = NULL;
-	command->head = NULL;
-	command->size = 0;
 	print_list(a, true);
 	ft_putstr("++++++++++\n");
-	//print_commands(command);
-	//presort_a(a, b, command);
 	solve_first(a, b, command);
+	stack = b->head;
+	while (stack)
+	{
+		stack->comand_list = (t_list_command *)malloc(sizeof(t_list_command));
+		stack->comand_list->head = NULL;
+		stack->comand_list->size = 0;
+		stack = stack->next;
+	}
 	while (b->head != NULL)
 	{
 		update_stack_comands(a, b);
 		push_minb2a(a, b, command);
 		print_commands(command);
-	//	aligned(a, command, true);
 	}
 	zero_to_head(a, command);
 	ft_putstr("----------\n");

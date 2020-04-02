@@ -6,7 +6,7 @@
 #    By: rick <rick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/27 16:23:40 by rick             ###   ########.fr        #
+#    Updated: 2020/03/31 15:56:58 by rick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ ID = $(shell id -un)
 SRC =	command_actions.c \
 		command_additionals.c \
 		input_checker.c \
-		list_actions.c \
+		list_actions_1.c \
+		list_actions_2.c \
 		list_additionals.c \
 		list_indexing.c \
 		operation_list_a.c \
