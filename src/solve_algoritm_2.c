@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:40:57 by rick              #+#    #+#             */
-/*   Updated: 2020/04/02 17:51:22 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:58 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 static void	stage_1(t_list_stack *b, int index)			//not debag
 {
@@ -32,7 +32,7 @@ static void	stage_1(t_list_stack *b, int index)			//not debag
 		else
 			rrb(copy_list, stack->comand_list);
 	}
-	list_deleteall(copy_list);
+	list_deleteall(copy_list, false);
 }
 
 static t_bool	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
@@ -64,12 +64,11 @@ static t_bool	stage_2(t_list_stack *a, t_list_stack *b, int index)			//not debag
 		if (find_command(stack_b->comand_list, "rra") == true)
 			command_delete(stack_b->comand_list, "rra");
 		else
-			command_add(stack_b->comand_list, "ra");			///??
-		//command_add(stack_b->comand_list, "rra");
+			command_add(stack_b->comand_list, "ra");
 		ret = true;
 	}
 	command_add(stack_b->comand_list, "pa");
-	list_deleteall(copy_list);
+	list_deleteall(copy_list, false);
 	return (ret);
 }
 
@@ -80,20 +79,11 @@ static void	update_stack_comands(t_list_stack *a, t_list_stack *b)
 
 	stack = b->head;
 	clean_commands(b);
-	printf("after clear\n");
 	while (stack != NULL)
 	{
 		stage_1(b, stack->index);
 		flag = stage_2(a, b, stack->index);
-		//command_set_sizes(b);
-		//double_command_update(stack, flag);				/// !! ./push_swap 0 1 -4 31 -42 -3 2 41 33 -33 1313 -34 | -33 не на своем месте при double_commands | причем иногда правильно считает
-		//видимо эта херня не работает когда появляется фантомный баг
-		printf("A:\n");
-		print_list(a, true);
-		printf("B:\n");
-		print_list(b, true);
-		print_commands(stack->comand_list);
-		printf("-------\n");
+		double_command_update(stack, flag);
 		stack = stack->next;
 	}
 }
@@ -102,7 +92,6 @@ static void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *comman
 {
 	t_stack		*stack_b;
 	t_stack		*save;
-	t_command	*comm;
 	int		min;
 	
 	stack_b = b->head;
@@ -118,13 +107,6 @@ static void	push_minb2a(t_list_stack *a, t_list_stack *b, t_list_command *comman
 		}
 		stack_b = stack_b->next;
 	}
-	printf("min index %d <------\n", save->index);
-	
-	/*stack_b = b->head;
-	while (stack_b->index != save)
-		stack_b = stack_b->next;
-	double_command_update(stack_b);*/
-	
 	exec_command_list(save->comand_list, command, a ,b);
 }
 
@@ -135,8 +117,6 @@ void	solve(t_list_stack *a, t_list_command *command)
 	
 	b = (t_list_stack *)malloc(sizeof(t_list_stack));
 	b->head = NULL;
-	print_list(a, true);
-	ft_putstr("++++++++++\n");
 	solve_first(a, b, command);
 	stack = b->head;
 	while (stack)
@@ -150,16 +130,10 @@ void	solve(t_list_stack *a, t_list_command *command)
 	{
 		update_stack_comands(a, b);
 		push_minb2a(a, b, command);
-		print_commands(command);
 	}
 	zero_to_head(a, command);
-	ft_putstr("----------\n");
-	print_list(a, true);
-	ft_putstr("----------\n");
-	print_list(b, true);
-	printf("%d\n", command->size);
-	list_deleteall(b);
-	//print_commands(command);
+//	command_list_correction(command);
+	list_deleteall(b, false);
 }
 
 /// дроп по мантиссе до ~3х чисел

@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 15:43:27 by rick              #+#    #+#             */
-/*   Updated: 2020/03/31 17:23:43 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:03 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 static void			set_index(t_list_stack *sortlist)
 {
@@ -82,5 +82,5 @@ void				list_indexing(t_list_stack *list)
 	index_list = list_sort_ascending(list);
 	set_index(index_list);
 	list_apply_index(list, index_list);
-	list_deleteall(index_list);
+	list_deleteall(index_list, false);
 }

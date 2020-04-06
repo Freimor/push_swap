@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/03 15:06:20 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/27 16:32:14 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:39 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 t_bool	rb_or_rrb(t_list_stack *b, int index)
 {
@@ -47,7 +47,7 @@ t_bool	check_align(t_list_stack *list, t_bool rigor)
 	}
 	else
 	{
-		while(stack->next != NULL)
+		while (stack->next != NULL)
 		{
 			if (stack->index + 1 != stack->next->index)
 				return (false);

@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/31 15:52:04 by rick              #+#    #+#             */
-/*   Updated: 2020/03/31 17:09:27 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:10:54 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 void	form_first_list(t_list_stack *list, int num)	/* CHECKED */
 {
@@ -18,12 +18,11 @@ void	form_first_list(t_list_stack *list, int num)	/* CHECKED */
 
 	if (list->head == NULL)
 	{
-		stack = (t_stack *)malloc(sizeof(t_stack));
-		stack->num = num;
-		stack->next = NULL;
-		stack->index = -1;
-		stack->comand_list = NULL;
-		list->head = stack;
+		list->head = (t_stack *)malloc(sizeof(t_stack));
+		list->head->num = num;
+		list->head->next = NULL;
+		list->head->index = -1;
+		list->head->comand_list = NULL;
 	}
 	else
 	{
@@ -31,11 +30,13 @@ void	form_first_list(t_list_stack *list, int num)	/* CHECKED */
 		while (stack->next != NULL)
 			stack = stack->next;
 		stack->next = (t_stack *)malloc(sizeof(t_stack));
+		ft_bzero(stack->next, sizeof(t_stack));		//pomoglo
 		stack->next->num = num;
 		stack->next->next = NULL;
 		stack->next->index = -1;
-		stack->comand_list = NULL;
+		stack->next->comand_list = NULL;
 	}
+	list->size++;
 }
 
 t_bool	list_checkduplicate(t_list_stack *list)	/* CHECKED */

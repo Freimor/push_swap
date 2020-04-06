@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:53:31 by rick              #+#    #+#             */
-/*   Updated: 2020/04/02 17:39:52 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:10:32 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 void	clean_commands(t_list_stack *b)
 {
@@ -26,7 +26,7 @@ void	clean_commands(t_list_stack *b)
 			if (stack->comand_list->head)
 			{
 				iter = stack->comand_list->head;
-				while (iter)
+				while (iter != NULL)
 				{
 					temp = iter;
 					iter = iter->next;
@@ -77,29 +77,6 @@ void	command_locallist(t_stack *stack, t_list_command *command)
 		}
 	}
 }
-
-/*void	command_set_sizes(t_list_stack *b)
-{
-	t_stack		*stack;
-	t_command	*command;
-
-	stack = b->head;
-	while (stack != NULL)
-	{
-		stack->comand_list->size = 0;
-		if (stack->comand_list)
-		{
-			command = stack->comand_list->head;
-			while (command != NULL)
-			{
-				stack->comand_list->size++;
-				command = command->next;
-			}
-		}
-		stack = stack->next;
-	}
-}*/
-
 t_list_command	*command_list_copy(t_list_command *list)
 {
 	t_list_command	*new;

@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:50:07 by rick              #+#    #+#             */
-/*   Updated: 2020/04/02 10:26:59 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:10:58 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 t_stack			*stack_copystack(t_stack *stack)
 {
@@ -20,10 +20,7 @@ t_stack			*stack_copystack(t_stack *stack)
 	new_stack->num = stack->num;
 	new_stack->index = stack->index;
 	new_stack->flag = stack->flag;
-	if (stack->comand_list)
-		command_locallist(new_stack, stack->comand_list);
-	else
-		new_stack->comand_list = NULL;
+	new_stack->comand_list = NULL;
 	new_stack->next = NULL;
 	return (new_stack);
 }

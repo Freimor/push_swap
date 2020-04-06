@@ -6,82 +6,112 @@
 #    By: rick <rick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/08 22:55:30 by ojessi            #+#    #+#              #
-#    Updated: 2020/03/31 15:56:58 by rick             ###   ########.fr        #
+#    Updated: 2020/04/06 11:14:23 by rick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, clean, fclean, re, obj, red, grn, off, norm
+.PHONY: all, clean, fclean, re
 
-NAME = push_swap
+NAME_PUSHSWAP = push_swap
+NAME_CHECKER = checker
+
 ID = $(shell id -un)
-# src / obj files
-SRC =	command_actions.c \
-		command_additionals.c \
-		input_checker.c \
-		list_actions_1.c \
-		list_actions_2.c \
-		list_additionals.c \
-		list_indexing.c \
-		operation_list_a.c \
-		operation_list_b.c \
-		operation_list_ab.c \
-		print_additionals.c \
-		push_swap.c \
-		solve_additionals_1.c \
-		solve_additionals_2.c \
-		solve_algoritm_1.c \
-		solve_algoritm_2.c \
+CC =	gcc
+FLAGS =	-g # -Wall -Wextra -Werror
+LIBRARIES =	-L $(LIBFT_DIR) -lft
+INCLUDES =	-I $(HEADERS_DIR) -I $(LIBFT_HEADERS)
 
-OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
+# LIBFT
+LIBFT_DIR =	./libft
+#LIBFT =		$(LIBFT_DIR)libft.a
+LIBFT = ./libft/libft.a
+LIBFT_HEADERS =	$(LIBFT_DIR)/includes/
 
-# compiler
-CC = gcc
-CFLAGS = -g
+#HEADERS
+HEADERS_LIST =	push_swap.h
+HEADERS_DIR =	./includes/
+HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
-# ft library
-FT = ./libft
-FT_LIB = $(addprefix $(FT), libft.a)
-FT_INC = -I ./libft
-FT_LNK = ./libft/libft.a
+#SOURCES
+SRC_DIR =	./src/
 
-# directories
-SRCDIR = ./src/
-INCDIR = -I ./includes/
-OBJDIR = ./obj/
+SRC_P =	push_swap.c
+SRC_C =	checker.c
 
-all: $(NAME)
+SRC_LIST =	command_actions.c \
+			command_additionals.c \
+			input_checker.c \
+			list_actions_1.c \
+			list_actions_2.c \
+			list_additionals.c \
+			list_indexing.c \
+			operation_list_a.c \
+			operation_list_b.c \
+			operation_list_ab.c \
+			print_additionals.c \
+			solve_additionals_1.c \
+			solve_additionals_2.c \
+			solve_algoritm_1.c \
+			solve_algoritm_2.c \
+			push_swap_additionals.c \
 
-$(NAME): obj $(FT_LIB) grn $(OBJ)
-	@$(CC) $(OBJ) $(FT_LNK) -o $(NAME)
-	@echo "\x1b[0m"
+SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
+SRC_PUSH = $(addprefix $(SRC_DIR), $(SRC_P))
+SRC_CHECKER = $(addprefix $(SRC_DIR), $(SRC_C))
 
-red:
-	@echo "\x1B[31m"
+#OBJECTS
+OBJ_DIR = obj/
+OBJ_L = $(patsubst %.c, %.o, $(SRC_LIST))
+OBJ_L_P = $(patsubst %.c, %.o, $(SRC_P))
+OBJ_L_C = $(patsubst %.c, %.o, $(SRC_C))
+OBJ = $(addprefix $(OBJ_DIR), $(OBJ_L))
+OBJ_P = $(addprefix $(OBJ_DIR), $(OBJ_L_P))
+OBJ_C = $(addprefix $(OBJ_DIR), $(OBJ_L_C))
 
-grn:
-	@echo "\x1B[32m"
+# COLORS
 
-off:
-	@echo "\x1b[0m"
+GREEN =	\033[0;32m
+RED =	\033[0;31m
+RESET =	\033[0m
 
-obj:
-	@mkdir -p $(OBJDIR)
+all: $(NAME_PUSHSWAP) $(NAME_CHECKER)
 
-$(FT_LIB):
-	@make -C $(FT)
+$(NAME_PUSHSWAP): $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_P)
+	@$(CC) -o $(NAME_PUSHSWAP) $(FLAGS) $(INCLUDES) $(OBJ) $(OBJ_P) $(LIBRARIES)
+	@echo "\n$(NAME_PUSHSWAP): $(GREEN)$(NAME_PUSHSWAP) object files were created$(RESET)"
+	@echo "$(NAME_PUSHSWAP): $(GREEN)$(NAME_PUSHSWAP) was created$(RESET)"
 
-$(OBJDIR)%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) $(FT_INC) $(INCDIR) -o $@ -c $<
+$(NAME_CHECKER): $(LIBFT) $(OBJ_DIR) $(OBJ) $(OBJ_C)
+	@$(CC)  -o $(NAME_CHECKER) $(FLAGS) $(INCLUDES) $(OBJ) $(OBJ_C) $(LIBRARIES)
+	@echo "\n$(NAME_CHECKER): $(GREEN)$(NAME_CHECKER) object files were created$(RESET)"
+	@echo "$(NAME_CHECKER): $(GREEN)$(NAME_CHECKER) was created$(RESET)"
 
-clean: red
-	/bin/rm -rf $(OBJDIR)
-	@make -C $(FT) clean
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(NAME_PUSHSWAP): $(GREEN)$(OBJ_DIR) was created$(RESET)"
+
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADERS)
+	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@
+	@echo "$(GREEN).$(RESET)\c"
+
+$(LIBFT):
+	@echo "$(NAME_PUSHSWAP): $(GREEN)creating $(LIBFT)...$(RESET)"
+	@make -C $(LIBFT_DIR)
+
+clean:
+	@make -C $(LIBFT_DIR) clean
+	@rm -rf $(OBJ_DIR)
+	@echo "$(NAME_PUSHSWAP): $(RED)$(OBJ_DIR) was deleted$(RESET)"
+	@echo "$(NAME_PUSHSWAP): $(RED)object files were deleted$(RESET)"
 
 fclean: clean
-	/bin/rm -rf $(NAME)
-	make -C $(FT) fclean
+	@rm -f $(LIBFT)
+	@echo "$(NAME_PUSHSWAP): $(RED)$(LIBFT) was deleted$(RESET)"
+	@rm -f $(NAME_PUSHSWAP)
+	@echo "$(NAME_PUSHSWAP): $(RED)$(NAME_PUSHSWAP) was deleted$(RESET)"
+	@rm -f $(NAME_CHECKER)
+	@echo "$(NAME_PUSHSWAP): $(RED)$(NAME_CHECKER) was deleted$(RESET)"
 
-re: fclean all
-
-norm:
-	norminette
+re:
+	@make fclean
+	@make all

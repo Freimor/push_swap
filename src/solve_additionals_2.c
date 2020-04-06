@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 16:13:36 by rick              #+#    #+#             */
-/*   Updated: 2020/04/02 10:37:46 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:44 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 void	exec_command_list(t_list_command *local, t_list_command *command, t_list_stack *a, t_list_stack *b)
 {
@@ -47,3 +47,23 @@ void	exec_command_list(t_list_command *local, t_list_command *command, t_list_st
 	}
 	command_list_delete(temp);
 }
+
+/*void	command_list_correction(t_list_command *command)
+{
+	t_command	*iter;
+	t_command	*iter_2;
+	t_command	*temp;
+	t_command	*temp_2;
+	t_bool		first;
+
+	iter = command->head;
+	iter_2 = command->head;
+	first = true;
+	while (iter->next)
+	{
+		if ((ft_strequ(iter->name, "pa") && ft_strequ(iter->next->name, "pb"))
+		|| (ft_strequ(iter->name, "pb") && ft_strequ(iter->next->name, "pa")))
+		{
+			command_delete()
+		}
+}*/

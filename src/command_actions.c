@@ -6,31 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:32:32 by freimor           #+#    #+#             */
-/*   Updated: 2020/04/02 19:46:10 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:10:26 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
-
-char	*ft_strdup(const char *str)
-{
-	char	*new;
-	int		i;
-	int		l;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	new = (char *)malloc(sizeof(char) * (i + 1));					//вылет маллока
-	if (new)
-	{
-		l = -1;
-		while (++l < i)
-			new[l] = str[l];
-		new[l] = '\0';
-	}
-	return (new);
-}
+#include "push_swap.h"
 
 void	command_add(t_list_command *list_commands, char *command)
 {
@@ -39,11 +19,7 @@ void	command_add(t_list_command *list_commands, char *command)
 	if (list_commands->head == NULL)
 	{
 		list_commands->head = (t_command *)malloc(sizeof(t_command));
-		//ft_strcpy(list_commands->head->name, command);
-		list_commands->head->name = (char *)malloc(sizeof(char) * (ft_strlen(command) + 1));
-		ft_strcpy(list_commands->head->name, command);
 		list_commands->head->name = ft_strdup(command);
-		//list_commands->head->name = command;
 		list_commands->head->next = NULL;
 		list_commands->size++;
 	}
@@ -53,10 +29,7 @@ void	command_add(t_list_command *list_commands, char *command)
 		while (commands->next != NULL)
 			commands = commands->next;
 		commands->next = (t_command *)malloc(sizeof(t_command));
-		//commands->next->name = ft_strdup(command);
-		commands->next->name = (char *)malloc(sizeof(char) * (ft_strlen(command) + 1));
-		ft_strcpy(commands->next->name, command);
-		//commands->next->name = command;
+		commands->next->name = ft_strdup(command);
 		commands->next->next = NULL;
 		list_commands->size++;
 	}
@@ -99,26 +72,42 @@ void	command_delete(t_list_command *list_commands, char *command)
 static void	command_replace(t_list_command *list_commands, char *remove, char *need)
 {
 	t_command	*commands;
-	t_command	*temp;
 	
 	commands = list_commands->head;
-	if (ft_strequ(list_commands->head->name, remove) == 1)
-		list_commands->head->name = need;
-	else
+	while (commands != NULL)
 	{
-		while (ft_strequ(commands->next->name, remove) != 1)
-			commands = commands->next;
-		temp = commands->next->next;
-		commands->next->name = need;
-		commands->next = temp;
+		if (ft_strequ(commands->name, remove) == 1)
+		{
+			free(commands->name);
+			commands->name = ft_strdup(need);
+			break ;
+		}
+		commands = commands->next;
 	}
 }
 
+/*void	command_replace(t_list_command *l, t_command *a, char *c)
+{
+	//command_replace(list, first command, second command, replace command)
+	t_command	*commands;
+	t_command	*temp;
+	
+	commands = l->head;
+	while (commands != a && commands != NULL)
+		commands = commands->next;
+	if (commands == a)
+	{
+		free(commands->name);
+		commands = ft_strdup(c);
+		temp = commands->next;
+		commands->next = commands->next->next;
+		free(temp->name);
+		free(temp);
+	}
+}*/
+
 static void	double_command_replace(t_stack *stack, int array[])
 {
-	int	i;
-
-	i = 0;
 	while (array[0] > 0 && array[2] > 0)
 	{
 		command_replace(stack->comand_list, "rb", "rr");

@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/21 09:58:54 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:12 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 void	ss(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 {

@@ -6,27 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:07:57 by freimor           #+#    #+#             */
-/*   Updated: 2020/04/02 14:05:49 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:08 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
-
-/*void	sa(t_list_stack *a, t_list_command *list_command)
-{
-	//swap a - swap the first 2 elements at the top of stack a. 
-	//Do nothing if there is only one or no elements).
-	t_stack		*temp;
-	
-	if (a->head || a->head->next)
-	{
-		temp = stack_copystack(a->head->next);
-		list_cut(a, a->head->next, true);
-		list_add2head(a, temp, false);
-		if (list_command != NULL)
-			command_add(list_command,"sa");
-	}
-}*/
+#include "push_swap.h"
 
 void	sa(t_list_stack *a, t_list_command *list_command)
 {
@@ -47,22 +31,6 @@ void	sa(t_list_stack *a, t_list_command *list_command)
 	}
 }
 
-/*void	pa(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
-{
-	//push a - take the first element at the top of b and put it at the top of a.
-	//Do nothing if a is empty.
-	t_stack	*temp;
-
-	if (b->head)
-	{
-		temp = stack_copystack(b->head);
-		list_cut(b, b->head, true);
-		list_add2head(a, temp, false);
-		if (list_command != NULL)
-			command_add(list_command,"pa");
-	}
-}*/
-
 void	pa(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 {
 	//push a - take the first element at the top of b and put it at the top of a.
@@ -79,26 +47,12 @@ void	pa(t_list_stack *a, t_list_stack *b, t_list_command *list_command)
 		temp->comand_list = NULL;
 		a->head = temp;
 		a->head->next = temp_2;
+		b->size--;
+		a->size++;
 		if (list_command != NULL)
 			command_add(list_command,"pa");
 	}
 }
-
-/*void	ra(t_list_stack *a, t_list_command *list_command)
-{
-	//rotate a - shift up all elements of stack a by 1.
-	//The first element becomes the last one.
-	t_stack	*temp;
-
-	if (a->head->next != NULL)
-	{
-		temp = stack_copystack(a->head);
-		list_cut(a, a->head, true);
-		list_add2tail(a, temp, false);
-		if (list_command != NULL)
-			command_add(list_command,"ra");
-	}
-}*/
 
 void	ra(t_list_stack *a, t_list_command *list_command)
 {
@@ -120,26 +74,6 @@ void	ra(t_list_stack *a, t_list_command *list_command)
 			command_add(list_command,"ra");
 	}
 }
-
-/*void	rra(t_list_stack *a, t_list_command *list_command)
-{
-	//reverse rotate a - shift down all elements of stack a by 1. 
-	//The last element becomes the first one.
-	t_stack	*stack;
-	t_stack	*temp;
-
-	if (a->head->next != NULL)
-	{	
-		stack = a->head;
-		while (stack->next != NULL)
-			stack = stack->next;
-		temp = stack_copystack(stack);
-		list_cut(a, stack, true);
-		list_add2head(a, temp, false);
-		if (list_command != NULL)
-			command_add(list_command,"rra");
-	}
-}*/
 
 void	rra(t_list_stack *a, t_list_command *list_command)
 {

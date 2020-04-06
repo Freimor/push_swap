@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_additionals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 12:16:23 by freimor           #+#    #+#             */
-/*   Updated: 2020/03/15 17:29:38 by sskinner         ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:26 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 static int	print_check_lennum(t_list_stack *list, t_bool num_or_in)
 {
@@ -60,7 +60,6 @@ void		print_part(int num, int len)
 void		print_list(t_list_stack *list, t_bool with_index)
 {
 	t_stack	*stack;
-	int		keepin;
 	int		l_num;
 	int		l_index;
 

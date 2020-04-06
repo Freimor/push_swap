@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 15:02:53 by rick              #+#    #+#             */
-/*   Updated: 2020/04/02 15:18:56 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:11:52 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 static void		attribute_apply(t_list_stack *list, t_list_stack *temp)
 {
@@ -66,7 +66,7 @@ static int		sort_combo(t_list_stack *list, int index, t_bool mark)
 	}
 	if (mark == true)
 		attribute_apply(list, temp_list);
-	list_deleteall(temp_list);
+	list_deleteall(temp_list, false);
 	return (count);
 }
 
@@ -90,8 +90,9 @@ static int		check_where_start(t_list_stack *list)
 	return (index);
 }
 
-void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
+/*void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
 {
+	//Conditional jump or move depends on uninitialised value(s)
 	int		start_index;
 	t_bool	flag;
 	
@@ -112,6 +113,41 @@ void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
 		else if (a->head->flag == true)
 			ra(a, command);
 		else
+			pb(a, b, command);
+	}
+}*/
+
+void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command)
+{
+	//Conditional jump or move depends on uninitialised value(s)
+	int		start_index;
+	t_bool	flag;
+	
+	start_index = check_where_start(a);
+	sort_combo(a, start_index, true);
+	flag = rb_or_rrb(a, start_index);
+	while (a->head->index != start_index)
+	{
+		if (flag == true)
+			ra(a, command);
+		else
+			rra(a, command);
+	}
+	ra(a, command);
+	while (check_align(a, true) == false)
+	{
+		if (a->head->next->index == start_index + 1)
+		{
+			sa(a, command);
+			ra(a, command);
+			start_index++;
+		}
+		else if (a->head->index == start_index + 1)
+		{
+			ra(a, command);
+			start_index++;
+		}
+		else if (a->head->flag == false)
 			pb(a, b, command);
 	}
 }

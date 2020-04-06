@@ -6,14 +6,14 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/04/02 12:23:33 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/05 21:12:26 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 #define PUSH_SWAP_H
 
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,9 +71,6 @@ void			command_list_delete(t_list_command *command);
 /*Copy sub command list to new copy of stack elem*/
 void			command_locallist(t_stack *stack, t_list_command *command);
 /*| command_additionals.c |*/
-/*Set size of each local command list*/
-//void			command_set_sizes(t_list_stack *b);
-/*| command_additionals.c |*/
 /*Copy list of commands*/
 t_list_command	*command_list_copy(t_list_command *list);
 /*| command_additionals.c |*/
@@ -102,7 +99,7 @@ void			list_cut(t_list_stack *list, t_stack *cut_node, t_bool delete);
 t_list_stack	*list_copylist(t_list_stack *old);
 /*| list_actions_1.c |*/
 /*Compleet list deletion*/
-void			list_deleteall(t_list_stack *list);
+void			list_deleteall(t_list_stack *list, t_bool form_first_list);
 /*| list_actions_2.c |*/
 /*Form first stack*/
 void			form_first_list(t_list_stack *list, int num);
@@ -184,11 +181,23 @@ void			zero_to_head(t_list_stack *a, t_list_command *command);
 /*| solve_additionals_2.c |*/
 /*Execute commands sublist*/
 void			exec_command_list(t_list_command *local, t_list_command *command, t_list_stack *a, t_list_stack *b);
+/*| solve_additionals_2.c |*/
+/*Correction main command list*/
+void			command_list_correction(t_list_command *command);
 /*| solve_algoritm_1.c |*/
 /*| Detect sorted elements and push not sorted elements to stack b |*/
 void			solve_first(t_list_stack *a, t_list_stack *b, t_list_command *command);
 /*| solve_algoritm_2.c |*/
 /*Solver*/
 void			solve(t_list_stack *a, t_list_command *command);
+/*| push_swap_additionals.c |*/
+/*Print error message and close exec*/
+void			crash(char *str);
+/*| push_swap_additionals.c |*/
+/*Full input validation*/
+t_list_stack	*input_fabrication(int ac, char **arg);
+/*| push_swap_additionals.c |*/
+/*Main push swap algoritm. Return list of commands*/
+t_list_command	*push_swap(t_list_stack *list);
 
 #endif // !PUSH_SWAP_H

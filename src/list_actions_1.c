@@ -6,11 +6,11 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 13:17:34 by freimor           #+#    #+#             */
-/*   Updated: 2020/04/01 21:19:28 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/06 11:18:31 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "push_swap.h"
 
 void	list_add2head(t_list_stack *list, t_stack *node, t_bool copy)
 {
@@ -105,7 +105,7 @@ t_list_stack	*list_copylist(t_list_stack *old)
 	return (new_list);
 }
 
-void			list_deleteall(t_list_stack *list)
+void			list_deleteall(t_list_stack *list, t_bool form_first_list)
 {
 	t_stack	*stack;
 	t_stack	*temp;
@@ -115,7 +115,7 @@ void			list_deleteall(t_list_stack *list)
 	{
 		temp = stack;
 		stack = stack->next;
-		if (temp->comand_list != NULL)
+		if (temp->comand_list != NULL && form_first_list == false)
 			command_list_delete(temp->comand_list);
 		free(temp);
 	}
