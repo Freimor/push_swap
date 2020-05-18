@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/04 18:18:09 by ojessi            #+#    #+#             */
-/*   Updated: 2020/03/15 17:34:20 by sskinner         ###   ########.fr       */
+/*   Created: 2019/04/04 18:18:09 by sskinner          #+#    #+#             */
+/*   Updated: 2020/04/08 10:37:25 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define ABS(Value) (Value < 0 ? -(Value) : Value)
 
 # include <string.h>
 # include <unistd.h>
@@ -92,29 +91,19 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_isspace(int ch);
 int					ft_count_words(char const *s);
 void				ft_lstaddback(t_list **alst, t_list *new);
-void				ft_setbackground_fd(int backg, int fd);
-char				*ft_free_join(char *new, char *src);
 t_list				*ft_list_add(void *str, int elem);
-t_list				*ft_list_push_back(t_list **begin_list,
-		void *str, int elem);
-t_list				*ft_list_foreach_if(t_list *begin_list, int elem);
 int					ft_abs(int a);
 void				ft_absf(float *nbr);
-float				ft_truncf(float nbr);
 int					ft_pow(int nbr, int power);
-char				*ft_free_strjoin_duo(char const *s1, char const *s2);
-char				*ft_free_strjoin_rev(char *src, char *new);
 char				*ft_ftoa(long double nbr);
 char				*ft_ltoa_base(long n, int base);
 char				*ft_ltoa(long n);
-char				*ft_ultoa_base(unsigned long n, int base);
-char				*ft_ultoa(unsigned long n);
-void				ft_frtwarr(void **arr, int size);
-void				ft_list_remove_free_if(t_list **begin_list, int elem);
 int					get_next_line(int fd, char **line);
 char				*ft_strtolower(char *str);
 int					ft_max(int a, int b);
 int					ft_min(int a, int b);
-char				**ft_find_images_in_dir(char *dir_name, size_t *count);
+t_list				*ft_lstcheck_contentsize(t_list **alst, size_t size);
+int					ft_lstdel_contentsize(t_list **alst, size_t size);
+
 
 #endif

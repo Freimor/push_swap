@@ -1,34 +1,28 @@
+ 
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ojessi <ojessi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sskinner <sskinner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 17:54:44 by ojessi            #+#    #+#             */
-/*   Updated: 2019/06/07 11:40:37 by ojessi           ###   ########.fr       */
+/*   Created: 2019/04/15 14:30:32 by sskinner          #+#    #+#             */
+/*   Updated: 2019/05/25 11:54:56 by sskinner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 32
+# define BUFF_SIZE 9999
 
-# include "libft.h"
 # include <fcntl.h>
+# include <stdio.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include "libft.h"
 
-typedef struct		s_line
-{
-	char			*str;
-	int				fd;
-	struct s_line	*next;
-}					t_line;
-
-int					get_next_line(const int fd, char **line);
-int					reading(int fd, char **line, t_line **head);
-void				get_tail(const int fd, char *buf, t_line **head);
-int					len(char *s, int c);
+int		get_next_line(const int fd, char **line);
 
 #endif

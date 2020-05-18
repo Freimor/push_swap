@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/05 20:32:32 by rick              #+#    #+#             */
-/*   Updated: 2020/04/06 11:13:16 by rick             ###   ########.fr       */
+/*   Updated: 2020/05/18 11:39:34 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_list_stack	*input_fabrication(int ac, char **arg)
 	if (input_checker(ac, arg) == false)
 		return (NULL);
 	list = (t_list_stack *)malloc(sizeof(t_list_stack));
+	ft_bzero(list, sizeof(t_list_stack));
 	list->head = NULL;
 	list->size = 0;
 	if (check_listfordup(list, ac, arg) == false)

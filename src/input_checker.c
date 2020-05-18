@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 15:59:54 by rick              #+#    #+#             */
-/*   Updated: 2020/04/05 21:10:42 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/07 15:07:31 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ t_bool	check_listfordup(t_list_stack *list, int ac, char **arg)	/* CHECKED */
 		i++;
 	}
 	if (list_checkduplicate(list) == false)
-	{
-		ft_putstr("Error dup\n");
 		return (false);
-	}
 	return (true);
 }
 
@@ -170,6 +167,8 @@ int		input_check_number(char *array)	/* CHECKED */
 	int	i;
 
 	i = 0;
+	if (ft_strequ(array, "2147483648") == true || ft_strequ(array, "-2147483649"))
+			return (false);
 	while (array[i] != '\0')
 	{
 		if (array[i] == '+' || array[i] == '-')

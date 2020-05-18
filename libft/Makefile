@@ -10,132 +10,138 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, clean, fclean, re, obj, grn, off, red
+.PHONY: all, clean, fclean, re
 
 NAME = libft.a
-#src / obj files
-SRC	=	ft_atoi.c \
-		ft_bzero.c \
-		ft_count_words.c \
-		ft_isalnum.c \
-		ft_isalpha.c \
-		ft_isascii.c \
-		ft_isdigit.c \
-		ft_isprint.c \
-		ft_isspace.c \
-		ft_itoa.c \
-		ft_lstadd.c \
-		ft_lstaddback.c \
-		ft_lstdel.c \
-		ft_lstdelone.c \
-		ft_lstiter.c \
-		ft_lstmap.c \
-		ft_lstnew.c \
-		ft_memalloc.c \
-		ft_memccpy.c \
-		ft_memchr.c \
-		ft_memcmp.c \
-		ft_memcpy.c \
-		ft_memdel.c \
-		ft_memmove.c \
-		ft_memset.c \
-		ft_putstr.c \
-		ft_putchar.c \
-		ft_putchar_fd.c \
-		ft_putendl.c \
-		ft_putendl_fd.c \
-		ft_putnbr.c \
-		ft_putnbr_fd.c \
-		ft_putstr_fd.c \
-		ft_strcat.c \
-		ft_strchr.c \
-		ft_strclr.c \
-		ft_strcmp.c \
-		ft_strcpy.c \
-		ft_strdel.c \
-		ft_strdup.c \
-		ft_strequ.c \
-		ft_striter.c \
-		ft_striteri.c \
-		ft_strjoin.c \
-		ft_strlcat.c \
-		ft_strlcpy.c \
-		ft_strlen.c \
-		ft_strmap.c \
-		ft_strmapi.c \
-		ft_strncat.c \
-		ft_strncmp.c \
-		ft_strncpy.c \
-		ft_strnequ.c \
-		ft_strnew.c \
-		ft_strnstr.c \
-		ft_strrev.c \
-		ft_strsplit.c \
-		ft_strstr.c \
-		ft_strsub.c \
-		ft_strrchr.c \
-		ft_strtrim.c \
-		ft_tolower.c \
-		ft_toupper.c \
-		ft_setbackground_fd.c \
-		ft_free_join.c \
-		ft_list_add.c \
-		ft_list_push_back.c \
-		ft_list_foreach_if.c \
-		ft_abs.c \
-		ft_absf.c \
-		ft_truncf.c \
-		ft_pow.c \
-		ft_free_strjoin_duo.c \
-		ft_free_strjoin_rev.c \
-		ft_ftoa.c \
-		ft_ltoa_base.c \
-		ft_ltoa.c \
-		ft_ultoa_base.c \
-		ft_ultoa.c \
-		ft_frtwarr.c \
-		get_next_line.c \
-		ft_list_remove_free_if.c \
-		ft_strtolower.c \
-		ft_max.c \
-		ft_min.c \
-		ft_find_images_in_dir.c
 
-OBJ = $(addprefix $(OBJDIR), $(SRC:.c=.o))
+ID = $(shell id -un)
+CC =	gcc
+FLAGS =	-g -Wall -Wextra -Werror
+INCLUDES =	-I $(HEADERS_DIR)
 
-#compiler
-CC = gcc
-#CFLAGS = -Wextra -Wall -Werror -g
+#HEADERS
+HEADERS_LIST =	libft.h \
+				get_next_line.h \
 
-#directories
-INCDIR = ./includes/
-OBJDIR = ./obj/
+HEADERS_DIR =	./includes/
+HEADERS = $(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
-all: obj grn $(NAME) off
+#SRC
+SRC_DIR =	./src/
 
-red:
-	@echo "\x1B[31m"
+SRC_LIST	=	ft_abs.c \
+				ft_absf.c \
+				ft_atoi.c \
+				ft_bzero.c \
+				ft_count_words.c \
+				ft_ftoa.c \
+				ft_isalnum.c \
+				ft_isalpha.c \
+				ft_isascii.c \
+				ft_isdigit.c \
+				ft_isprint.c \
+				ft_isspace.c \
+				ft_itoa.c \
+				ft_lstadd.c \
+				ft_lstaddback.c \
+				ft_lstcheck_contentsize.c \
+				ft_lstdel_contentsize.c \
+				ft_lstdel.c \
+				ft_lstdelone.c \
+				ft_lstiter.c \
+				ft_lstmap.c \
+				ft_lstnew.c \
+				ft_ltoa_base.c \
+				ft_ltoa.c \
+				ft_max.c \
+				ft_memalloc.c \
+				ft_memccpy.c \
+				ft_memchr.c \
+				ft_memcmp.c \
+				ft_memdel.c \
+				ft_memmove.c \
+				ft_memset.c \
+				ft_min.c \
+				ft_pow.c \
+				ft_putchar_fd.c \
+				ft_putchar.c \
+				ft_putendl_fd.c \
+				ft_putendl.c \
+				ft_putnbr_fd.c \
+				ft_putnbr.c \
+				ft_putstr_fd.c \
+				ft_putstr.c \
+				ft_strcat.c \
+				ft_strchr.c \
+				ft_strclr.c \
+				ft_strcmp.c \
+				ft_strcpy.c \
+				ft_strdel.c \
+				ft_strdup.c \
+				ft_strequ.c \
+				ft_striter.c \
+				ft_striteri.c \
+				ft_strjoin.c \
+				ft_strlcat.c \
+				ft_strlcpy.c \
+				ft_strlen.c \
+				ft_strmap.c \
+				ft_strmapi.c \
+				ft_strncat.c \
+				ft_strncmp.c \
+				ft_strncpy.c \
+				ft_strnequ.c \
+				ft_strnew.c \
+				ft_strnstr.c \
+				ft_strrchr.c \
+				ft_strrev.c \
+				ft_strsplit.c \
+				ft_strstr.c \
+				ft_strsub.c \
+				ft_strtolower.c \
+				ft_strtrim.c \
+				ft_tolower.c \
+				ft_toupper.c \
+				get_next_line.c \
 
-grn:
-	@echo "\x1B[32m"
+SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))
 
-off:
-	@echo "\x1b[0m"
+#OBJECTS
+OBJ_DIR = obj/
+OBJ_L = $(patsubst %.c, %.o, $(SRC_LIST))
+OBJ = $(addprefix $(OBJ_DIR), $(OBJ_L))
 
-obj:
-	@mkdir -p $(OBJDIR)
+# COLORS
 
-$(OBJDIR)%.o:%.c
-	$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
+GREEN =	\033[0;32m
+RED =	\033[0;31m
+RESET =	\033[0m
 
-$(NAME): $(OBJ)	
+all: $(NAME)
+
+$(NAME): $(OBJ_DIR) $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
+	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
+	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
-clean: red
-	/bin/rm -rf $(OBJDIR)
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(NAME): $(GREEN)$(OBJ_DIR) was created$(RESET)"
+
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADERS)
+	@$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
+	@echo "$(GREEN).$(RESET)\c"
+
+clean:
+	@rm -rf $(OBJ_DIR)
+	@echo "$(NAME): $(RED)$(OBJ_DIR) was deleted$(RESET)"
+	@echo "$(NAME): $(RED)object files were deleted$(RESET)"
 
 fclean: clean
-	/bin/rm -f $(NAME)
-	
-re: fclean all
+	@rm -f $(NAME)
+	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
+
+re:
+	@make fclean
+	@make all

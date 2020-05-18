@@ -6,18 +6,18 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:52:42 by sskinner          #+#    #+#             */
-/*   Updated: 2020/04/05 21:12:26 by rick             ###   ########.fr       */
+/*   Updated: 2020/05/18 11:35:12 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
-#define PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-#include "libft.h"
-#include <inttypes.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+# include "../libft/includes/libft.h"
+# include <inttypes.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
 
 typedef enum
 {

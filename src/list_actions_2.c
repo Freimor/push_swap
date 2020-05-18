@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/31 15:52:04 by rick              #+#    #+#             */
-/*   Updated: 2020/04/05 21:10:54 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/07 14:10:49 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	form_first_list(t_list_stack *list, int num)	/* CHECKED */
 	if (list->head == NULL)
 	{
 		list->head = (t_stack *)malloc(sizeof(t_stack));
+		ft_bzero(list->head, sizeof(t_stack));		//pomoglo
 		list->head->num = num;
 		list->head->next = NULL;
 		list->head->index = -1;

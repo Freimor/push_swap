@@ -6,7 +6,7 @@
 /*   By: rick <rick@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/21 14:40:57 by rick              #+#    #+#             */
-/*   Updated: 2020/04/05 21:11:58 by rick             ###   ########.fr       */
+/*   Updated: 2020/04/07 14:16:29 by rick             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,25 +115,28 @@ void	solve(t_list_stack *a, t_list_command *command)
 	t_list_stack		*b;
 	t_stack				*stack;
 	
-	b = (t_list_stack *)malloc(sizeof(t_list_stack));
-	b->head = NULL;
-	solve_first(a, b, command);
-	stack = b->head;
-	while (stack)
+	if (check_align(a, true) == false)
 	{
-		stack->comand_list = (t_list_command *)malloc(sizeof(t_list_command));
-		stack->comand_list->head = NULL;
-		stack->comand_list->size = 0;
-		stack = stack->next;
-	}
-	while (b->head != NULL)
-	{
-		update_stack_comands(a, b);
-		push_minb2a(a, b, command);
-	}
+		b = (t_list_stack *)malloc(sizeof(t_list_stack));
+		b->head = NULL;
+		solve_first(a, b, command);
+		stack = b->head;
+		while (stack)
+		{
+			stack->comand_list = (t_list_command *)malloc(sizeof(t_list_command));
+			stack->comand_list->head = NULL;
+			stack->comand_list->size = 0;
+			stack = stack->next;
+		}
+		while (b->head != NULL)
+		{
+			update_stack_comands(a, b);
+			push_minb2a(a, b, command);
+		}
 	zero_to_head(a, command);
 //	command_list_correction(command);
 	list_deleteall(b, false);
+	}
 }
 
 /// дроп по мантиссе до ~3х чисел
